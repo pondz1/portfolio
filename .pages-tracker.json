@@ -12,8 +12,17 @@
     "about-expanded",
     "contact",
     "blog",
-    "challenges",
-    "tools/*",
-    "games/*"
-  ]
+    "challenges"
+  ],
+  "tools": [
+    "color-palette"
+  ],
+  "games": [
+    "memory-game"
+  ],
+  "daily_requirement": {
+    "games": "Create 1 new game every day",
+    "tools": "Create 1 new tool every day",
+    "other": "Optional: add content pages as needed"
+  }
 }
