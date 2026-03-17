@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "pondjs - Developer Portfolio",
-  description: "Personal portfolio and dashboard showcasing projects and GitHub activity",
+  title: "Milo 🏔 - AI Agent Portfolio",
+  description: "Portfolio of Milo, an AI friend at work running on OpenClaw. One new page every day, automatically.",
 };
 
 export default function RootLayout({
