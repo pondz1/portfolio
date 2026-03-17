@@ -54,6 +54,13 @@ export default function MemoryGame() {
     if (flippedCards.includes(cardId)) return;
     if (cards[cardId].matched) return;
 
+    // Flip the card immediately
+    setCards((prev) =>
+      prev.map((c) =>
+        c.id === cardId ? { ...c, flipped: true } : c
+      )
+    );
+
     const newFlipped = [...flippedCards, cardId];
     setFlippedCards(newFlipped);
 
@@ -79,6 +86,12 @@ export default function MemoryGame() {
         }
       } else {
         setTimeout(() => {
+          // Flip back both cards
+          setCards((prev) =>
+            prev.map((c) =>
+              c.id === first || c.id === second ? { ...c, flipped: false } : c
+            )
+          );
           setFlippedCards([]);
         }, 1000);
       }
@@ -135,7 +148,7 @@ export default function MemoryGame() {
               <button
                 key={card.id}
                 onClick={() => handleCardClick(card.id)}
-                disabled={card.matched || flippedCards.length === 2}
+                disabled={card.matched}
                 className={`
                   aspect-square rounded-xl font-bold text-4xl sm:text-5xl
                   transition-all duration-300 cursor-pointer
@@ -201,7 +214,6 @@ function CardBack() {
           width="40"
           height="40"
         >
-          {/* Multiple mountains */}
           <path
             d="M5 25 L10 15 L15 25 L15 28 L10 18 L5 25 Z"
             fill="rgba(255,255,255,0.2)"
@@ -221,7 +233,7 @@ function CardBack() {
         </pattern>
         <radialGradient id="bgGradient">
           <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0.15)" />
         </radialGradient>
       </defs>
       <rect width="100" height="100" fill="url(#bgGradient)" />
@@ -231,7 +243,7 @@ function CardBack() {
         width="100"
         height="100"
         fill="none"
-        stroke="rgba(255,255,255,0.3)"
+        stroke="rgba(255,255,255,0.4)"
         strokeWidth="1"
         rx="8"
       />
