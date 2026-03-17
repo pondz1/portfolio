@@ -25,6 +25,12 @@ export default function Home() {
             >
               Dashboard
             </Link>
+            <Link
+              href="/learning"
+              className="px-6 py-3 border border-zinc-300 dark:border-zinc-700 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            >
+              Learning
+            </Link>
           </div>
         </div>
       </section>

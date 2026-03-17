@@ -1,8 +1,7 @@
 {
-  "created": ["dashboard"],
+  "created": ["dashboard", "learning"],
   "planned": [
-    "learning",
-    "thoughts", 
+    "thoughts",
     "reading",
     "tools",
     "notes",
