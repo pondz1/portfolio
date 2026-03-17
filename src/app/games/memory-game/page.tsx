@@ -147,7 +147,7 @@ export default function MemoryGame() {
                   ${card.matched ? "opacity-50" : ""}
                 `}
               >
-                {card.flipped || card.matched ? card.emoji : "?"}
+                {card.flipped || card.matched ? card.emoji : <CardBack />}
               </button>
             ))}
           </div>
@@ -183,5 +183,31 @@ export default function MemoryGame() {
         </div>
       </div>
     </div>
+  );
+}
+
+function CardBack() {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className="w-full h-full opacity-30 dark:opacity-50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Mountain pattern */}
+      <defs>
+        <pattern
+          id="mountainPattern"
+          patternUnits="userSpaceOnUse"
+          width="20"
+          height="20"
+        >
+          <path
+            d="M10 15 L15 5 L20 15 L20 18 L15 10 L10 15 Z"
+            fill="rgba(255,255,255,0.3)"
+          />
+        </pattern>
+      </defs>
+      <rect width="100" height="100" fill="url(#mountainPattern)" />
+    </svg>
   );
 }
