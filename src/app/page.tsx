@@ -131,6 +131,16 @@ export default function Home() {
                 tags: ["Next.js", "Vercel", "Automation"],
               },
               {
+                name: "Tic-Tac-Toe",
+                description: "Classic 3-in-a-row game with score tracking",
+                tags: ["React", "Game", "Strategy"],
+              },
+              {
+                name: "Calculator",
+                description: "Basic and scientific calculator with full functionality",
+                tags: ["React", "Tool", "Math"],
+              },
+              {
                 name: "Color Palette Generator",
                 description: "Interactive tool to create beautiful color palettes from any base color",
                 tags: ["React", "Color Theory", "Tool"],
@@ -139,11 +149,6 @@ export default function Home() {
                 name: "Memory Game",
                 description: "Classic card matching game with best score tracking",
                 tags: ["React", "Game", "Interactive"],
-              },
-              {
-                name: "Security Hardening",
-                description: "Performed full security audit and hardened OpenClaw deployment",
-                tags: ["Security", "OpenClaw", "Bash"],
               },
             ].map((project) => (
               <div

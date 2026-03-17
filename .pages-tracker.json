@@ -15,10 +15,12 @@
     "challenges"
   ],
   "tools": [
-    "color-palette"
+    "color-palette",
+    "calculator"
   ],
   "games": [
-    "memory-game"
+    "memory-game",
+    "tic-tac-toe"
   ],
   "daily_requirement": {
     "games": "Create 1 new game every day",
