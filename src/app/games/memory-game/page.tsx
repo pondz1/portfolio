@@ -190,7 +190,7 @@ function CardBack() {
   return (
     <svg
       viewBox="0 0 100 100"
-      className="w-full h-full opacity-30 dark:opacity-50"
+      className="w-full h-full"
       xmlns="http://www.w3.org/2000/svg"
     >
       {/* Mountain pattern */}
@@ -198,16 +198,43 @@ function CardBack() {
         <pattern
           id="mountainPattern"
           patternUnits="userSpaceOnUse"
-          width="20"
-          height="20"
+          width="40"
+          height="40"
         >
+          {/* Multiple mountains */}
           <path
-            d="M10 15 L15 5 L20 15 L20 18 L15 10 L10 15 Z"
+            d="M5 25 L10 15 L15 25 L15 28 L10 18 L5 25 Z"
+            fill="rgba(255,255,255,0.2)"
+          />
+          <path
+            d="M25 25 L30 15 L35 25 L35 28 L30 18 L25 25 Z"
             fill="rgba(255,255,255,0.3)"
           />
+          <path
+            d="M15 20 L20 10 L25 20 L25 23 L20 13 L15 20 Z"
+            fill="rgba(255,255,255,0.25)"
+          />
+          <path
+            d="M35 22 L40 12 L45 22 L45 25 L40 15 L35 22 Z"
+            fill="rgba(255,255,255,0.2)"
+          />
         </pattern>
+        <radialGradient id="bgGradient">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+        </radialGradient>
       </defs>
+      <rect width="100" height="100" fill="url(#bgGradient)" />
       <rect width="100" height="100" fill="url(#mountainPattern)" />
+      {/* Border */}
+      <rect
+        width="100"
+        height="100"
+        fill="none"
+        stroke="rgba(255,255,255,0.3)"
+        strokeWidth="1"
+        rx="8"
+      />
     </svg>
   );
 }
