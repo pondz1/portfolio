@@ -1,9 +1,8 @@
 {
-  "created": ["dashboard", "learning", "journey"],
+  "created": ["dashboard", "learning", "journey", "tools/color-palette", "games/memory-game"],
   "planned": [
     "thoughts",
     "reading",
-    "tools",
     "notes",
     "experiments",
     "projects-detail",
@@ -13,6 +12,8 @@
     "about-expanded",
     "contact",
     "blog",
-    "challenges"
+    "challenges",
+    "tools/*",
+    "games/*"
   ]
 }
