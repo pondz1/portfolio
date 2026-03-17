@@ -152,7 +152,7 @@ export default function MemoryGame() {
             ))}
           </div>
         ) : (
-          {/* Game Over */}
+          /* Game Over */
           <div className="p-8 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
             <div className="text-6xl mb-4">🎉</div>
             <h2 className="text-3xl font-bold mb-4 dark:text-white">You Won!</h2>
