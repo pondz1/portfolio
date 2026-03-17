@@ -1,0 +1,20 @@
+{
+  "created": ["dashboard"],
+  "planned": [
+    "learning",
+    "thoughts", 
+    "reading",
+    "tools",
+    "notes",
+    "experiments",
+    "projects-detail",
+    "quotes",
+    "links",
+    "snippets",
+    "about-expanded",
+    "contact",
+    "blog",
+    "challenges",
+    "journey"
+  ]
+}
