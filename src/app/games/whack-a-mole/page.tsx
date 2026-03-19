@@ -1,8 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { MoveLeft, Trophy, Hammer, RotateCcw } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Trophy, Hammer, RotateCcw } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
+import { NeoButton } from "@/components/ui/NeoButton";
 
 export default function WhackAMole() {
   const [moles, setMoles] = useState<boolean[]>(new Array(9).fill(false));
@@ -84,85 +86,64 @@ export default function WhackAMole() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#DC2626]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-rose-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <Hammer className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Whack-a-Mole</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">SMASH THE MOLES</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-rose-600 hover:text-white transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Whack-a-Mole" 
+        subtitle="SMASH THE MOLES" 
+        icon={<Hammer className="w-5 h-5" />} 
+        iconClass="bg-rose-600 text-white" 
+        shadowClass="shadow-[0_4px_0_0_#DC2626]" 
+      />
 
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
         {/* Score Board */}
         <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#DC2626] p-4 text-center">
+          <NeoBlock shadowClass="shadow-[6px_6px_0_0_#DC2626]" className="p-4 text-center">
             <div className="text-3xl md:text-4xl font-black text-rose-600">{score}</div>
             <div className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400 mt-1">SCORE</div>
-          </div>
-          <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#F59E0B] p-4 text-center">
+          </NeoBlock>
+          <NeoBlock shadowClass="shadow-[6px_6px_0_0_#F59E0B]" className="p-4 text-center">
             <div className="text-3xl md:text-4xl font-black text-amber-500">{timeLeft}</div>
             <div className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400 mt-1">TIME LEFT</div>
-          </div>
-          <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#8B5CF6] p-4 text-center">
+          </NeoBlock>
+          <NeoBlock shadowClass="shadow-[6px_6px_0_0_#8B5CF6]" className="p-4 text-center">
             <div className="text-3xl md:text-4xl font-black text-purple-500">{highScore}</div>
             <div className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400 mt-1">HIGH SCORE</div>
-          </div>
+          </NeoBlock>
         </div>
 
         {/* Game Grid */}
-        <div className="bg-amber-100 dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#92400E] p-6 md:p-8 mb-8">
+        <NeoBlock shadowClass="shadow-[12px_12px_0_0_#92400E]" className="bg-amber-100 dark:bg-zinc-900 p-6 md:p-8 mb-8">
           <div className="grid grid-cols-3 gap-4 md:gap-6">
             {moles.map((hasMole, index) => (
-              <button
+               <button
                 key={index}
                 onClick={() => whackMole(index)}
                 disabled={!gameActive || !hasMole}
-                className={`
+                 className={`
                   aspect-square border-4 border-zinc-800 dark:border-zinc-600 
                   flex items-center justify-center text-5xl md:text-7xl
                   transition-all duration-100 cursor-pointer
                   ${hasMole
-                    ? 'bg-amber-800 hover:bg-rose-600 text-white hover:scale-95 active:scale-90 shadow-[0_0_0_0] active:shadow-[0_0_0_0]'
+                     ? 'bg-amber-800 hover:bg-rose-600 text-white hover:scale-95 active:scale-90 shadow-[0_0_0_0] active:shadow-[0_0_0_0]'
                     : 'bg-amber-200 dark:bg-zinc-800 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.2)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)]'
                   }
                   ${whackedHole === index ? 'bg-rose-600!' : ''}
-                  disabled:cursor-not-allowed
+                   disabled:cursor-not-allowed
                 `}
-              >
+               >
                 {hasMole ? '🐹' : ''}
                 {whackedHole === index && !hasMole && '💥'}
               </button>
             ))}
           </div>
-        </div>
+        </NeoBlock>
 
         {/* Controls */}
-        <div className="flex justify-center gap-4">
-          <button
+        <div className="flex justify-center gap-4 text-xl">
+           <NeoButton
             onClick={startGame}
             disabled={gameActive}
-            className="px-8 py-4 bg-rose-600 text-white font-black text-xl uppercase tracking-wider
-              border-4 border-zinc-900 dark:border-zinc-100 
-              shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] 
-              hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] 
-              active:translate-y-1 active:translate-x-1 active:shadow-none 
-              transition-all duration-200 flex items-center gap-3
-              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:translate-x-0 disabled:hover:shadow-[6px_6px_0_0_#18181b]"
+            className="py-4 text-xl flex items-center gap-3 bg-rose-600 text-white shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa]"
           >
             {gameActive ? (
               <>
@@ -175,13 +156,13 @@ export default function WhackAMole() {
                 Start Game
               </>
             )}
-          </button>
+           </NeoButton>
         </div>
 
         {/* Game Over Message */}
         {!gameActive && score > 0 && (
           <div className="mt-8 text-center">
-            <div className="inline-block bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#DC2626] p-6 md:p-8">
+             <NeoBlock shadowClass="shadow-[8px_8px_0_0_#DC2626]" className="inline-block p-6 md:p-8">
               <h2 className="text-3xl md:text-4xl font-black uppercase text-zinc-900 dark:text-zinc-50 mb-2">
                 Game Over!
               </h2>
@@ -190,38 +171,38 @@ export default function WhackAMole() {
               </p>
               {score >= highScore && score > 0 && (
                 <div className="flex items-center justify-center gap-2 text-amber-500 font-black">
-                  <Trophy className="w-6 h-6" />
+                   <Trophy className="w-6 h-6" />
                   New High Score!
                 </div>
               )}
-            </div>
+             </NeoBlock>
           </div>
         )}
 
         {/* Instructions */}
-        <div className="mt-8 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#4B5563] p-6">
-          <h3 className="text-lg md:text-xl font-black uppercase text-zinc-900 dark:text-zinc-50 mb-4">
+         <NeoBlock shadowClass="shadow-[8px_8px_0_0_#4B5563]" className="mt-8 p-6">
+           <h3 className="text-lg md:text-xl font-black uppercase text-zinc-900 dark:text-zinc-50 mb-4">
             How to Play
           </h3>
           <ul className="space-y-2 text-zinc-700 dark:text-zinc-300 font-bold">
             <li className="flex items-start gap-2">
-              <span className="text-rose-600">•</span>
+               <span className="text-rose-600">•</span>
               Click or tap the moles when they appear
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-rose-600">•</span>
+               <span className="text-rose-600">•</span>
               Each whack gives you 10 points
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-rose-600">•</span>
+             </li>
+             <li className="flex items-start gap-2">
+               <span className="text-rose-600">•</span>
               You have 30 seconds to score as much as possible
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-rose-600">•</span>
+               <span className="text-rose-600">•</span>
               Beat your high score to earn the trophy!
             </li>
           </ul>
-        </div>
+        </NeoBlock>
       </div>
     </div>
   );

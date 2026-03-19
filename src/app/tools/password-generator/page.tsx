@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { MoveLeft, Lock, RefreshCcw, Check, Fingerprint } from 'lucide-react';
+import { Lock, RefreshCcw, Check, Fingerprint } from 'lucide-react';
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
+import { NeoButton } from "@/components/ui/NeoButton";
 
 export default function PasswordGenerator() {
   const [password, setPassword] = useState('');
@@ -66,36 +68,20 @@ export default function PasswordGenerator() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#2563EB]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <Lock className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Generator</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">SECURE PASSWORDS</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-blue-600 hover:text-white transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Generator" 
+        subtitle="SECURE PASSWORDS" 
+        icon={<Lock className="w-5 h-5" />} 
+        iconClass="bg-blue-600 text-white" 
+        shadowClass="shadow-[0_4px_0_0_#2563EB]" 
+      />
 
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-3xl">
-        <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#2563EB] p-6 md:p-10">
+        <NeoBlock shadowClass="shadow-[12px_12px_0_0_#2563EB]" className="p-6 md:p-10">
           
           {/* Password Output Field */}
           <div className="bg-zinc-100 dark:bg-zinc-800 border-4 border-zinc-900 dark:border-zinc-100 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.1)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)] p-4 md:p-6 mb-8 flex flex-col md:flex-row items-center gap-4">
-            <input
+             <input
               type="text"
               value={password}
               readOnly
@@ -103,13 +89,13 @@ export default function PasswordGenerator() {
               placeholder="Click GENERATE below..."
             />
             <button
-              onClick={copyToClipboard}
+               onClick={copyToClipboard}
               className={`w-full md:w-auto px-6 py-3 border-4 border-zinc-900 dark:border-zinc-100 font-black uppercase text-sm tracking-widest shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#18181b] dark:hover:shadow-[6px_6px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all flex items-center justify-center gap-2 ${
                 copied ? 'bg-emerald-500 text-zinc-900' : 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800'
-              }`}
+               }`}
             >
               {copied ? <Check className="w-5 h-5" /> : <Fingerprint className="w-5 h-5" />}
-              {copied ? 'Copied' : 'Copy'}
+               {copied ? 'Copied' : 'Copy'}
             </button>
           </div>
 
@@ -122,7 +108,7 @@ export default function PasswordGenerator() {
               </span>
             </div>
             <div className="w-full h-4 bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-700 p-0.5 flex">
-              <div
+               <div
                 className={`h-full border-r-2 border-zinc-900 dark:border-zinc-900 transition-all duration-500 ${strength.color}`}
                 style={{ width: `${strength.strength}%` }}
               />
@@ -131,21 +117,21 @@ export default function PasswordGenerator() {
 
           {/* Settings Grid */}
           <div className="space-y-6 mb-10">
-            {/* Length slider */}
+             {/* Length slider */}
             <div className="p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800">
-              <label className="flex justify-between items-center text-zinc-900 dark:text-zinc-50 font-black uppercase text-sm md:text-base mb-6">
+               <label className="flex justify-between items-center text-zinc-900 dark:text-zinc-50 font-black uppercase text-sm md:text-base mb-6">
                 Length
                 <span className="text-2xl text-blue-600 dark:text-blue-400">{length}</span>
               </label>
               <input
-                type="range"
+                 type="range"
                 min="4"
-                max="64"
+                 max="64"
                 value={length}
-                onChange={(e) => setLength(Number(e.target.value))}
+                 onChange={(e) => setLength(Number(e.target.value))}
                 className="w-full h-3 bg-zinc-200 dark:bg-zinc-700 border-2 border-zinc-900 rounded-none appearance-none cursor-pointer accent-blue-600 focus:outline-none"
               />
-              <div className="flex justify-between text-xs font-bold text-zinc-500 mt-2">
+               <div className="flex justify-between text-xs font-bold text-zinc-500 mt-2">
                 <span>4</span>
                 <span>64</span>
               </div>
@@ -154,62 +140,59 @@ export default function PasswordGenerator() {
             {/* Checkboxes */}
             <div className="grid sm:grid-cols-2 gap-4">
               <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
-                <input
+                 <input
                   type="checkbox"
                   checked={includeUppercase}
                   onChange={(e) => setIncludeUppercase(e.target.checked)}
                   className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
                 <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
-                  Uppercase (A-Z)
+                   Uppercase (A-Z)
                 </span>
-              </label>
+               </label>
 
               <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
-                <input
+                 <input
                   type="checkbox"
                   checked={includeLowercase}
                   onChange={(e) => setIncludeLowercase(e.target.checked)}
-                  className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
+                   className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
-                <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
+                 <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
                   Lowercase (a-z)
                 </span>
-              </label>
+               </label>
 
               <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
-                <input
+                 <input
                   type="checkbox"
                   checked={includeNumbers}
                   onChange={(e) => setIncludeNumbers(e.target.checked)}
                   className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
-                <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
+                 <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
                   Numbers (0-9)
-                </span>
+                 </span>
               </label>
 
               <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
-                <input
+                 <input
                   type="checkbox"
                   checked={includeSymbols}
                   onChange={(e) => setIncludeSymbols(e.target.checked)}
-                  className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
+                   className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
                 <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
-                  Symbols (!@#$)
+                   Symbols (!@#$)
                 </span>
-              </label>
-            </div>
+               </label>
+             </div>
           </div>
 
-          <button
-            onClick={generatePassword}
-            className="w-full flex items-center justify-center gap-3 bg-blue-600 text-white font-black text-xl md:text-2xl py-6 border-4 border-zinc-900 dark:border-zinc-100 hover:bg-blue-500 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[12px_12px_0_0_#18181b] dark:hover:shadow-[12px_12px_0_0_#fafafa] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase tracking-tight cursor-pointer"
-          >
+          <NeoButton onClick={generatePassword} variant="primary" className="w-full text-xl md:text-2xl py-6">
             <RefreshCcw className="w-8 h-8" /> Generate
-          </button>
-        </div>
+          </NeoButton>
+        </NeoBlock>
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Palette, MoveLeft, Copy } from "lucide-react";
+import { Palette, Copy } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
+import { NeoButton } from "@/components/ui/NeoButton";
 
 export default function ColorPalette() {
   const [baseColor, setBaseColor] = useState("#3B82F6");
@@ -76,33 +78,17 @@ export default function ColorPalette() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#F59E0B]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-500 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-zinc-900 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <Palette className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Color Palette</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">BEAUTIFUL SHADES</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-amber-500 hover:text-zinc-900 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Color Palette" 
+        subtitle="BEAUTIFUL SHADES" 
+        icon={<Palette className="w-5 h-5" />} 
+        iconClass="bg-amber-500 text-zinc-900" 
+        shadowClass="shadow-[0_4px_0_0_#F59E0B]" 
+      />
 
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
         {/* Generator Controls */}
-        <div className="mb-12 p-6 md:p-8 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#F59E0B]">
+        <NeoBlock shadowClass="shadow-[8px_8px_0_0_#F59E0B]" className="mb-12">
           <div className="flex flex-col md:flex-row gap-6 items-end">
             <div className="flex-1 w-full">
               <label className="block text-sm font-black uppercase text-zinc-900 dark:text-zinc-50 mb-2">
@@ -134,22 +120,16 @@ export default function ColorPalette() {
                 />
               </div>
             </div>
-            <button
-              onClick={generateNewPalette}
-              className="px-8 py-4 bg-blue-600 text-white font-black text-lg border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase whitespace-nowrap"
-            >
+            <NeoButton onClick={generateNewPalette} variant="primary" className="py-4 text-lg whitespace-nowrap">
               Random Palette
-            </button>
+            </NeoButton>
           </div>
-        </div>
+        </NeoBlock>
 
         {/* Palettes Grid */}
         <div className="grid md:grid-cols-2 gap-8">
           {palettes.map((palette, idx) => (
-            <div
-              key={idx}
-              className="bg-zinc-100 dark:bg-zinc-800 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa] flex flex-col"
-            >
+             <NeoBlock key={idx} noPadding className="flex flex-col bg-zinc-100 dark:bg-zinc-800 border-4 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
               <div className="flex h-64 border-b-4 border-zinc-900 dark:border-zinc-100">
                 {palette.map((color, colorIdx) => (
                   <div
@@ -190,19 +170,19 @@ export default function ColorPalette() {
                   ))}
                 </div>
               </div>
-            </div>
+            </NeoBlock>
           ))}
         </div>
 
         {/* Info */}
-        <div className="mt-12 p-8 bg-zinc-100 dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#F59E0B]">
+        <NeoBlock shadowClass="shadow-[6px_6px_0_0_#F59E0B]" className="mt-12 bg-zinc-100 dark:bg-zinc-900">
           <h2 className="text-xl font-black mb-4 dark:text-zinc-50 uppercase">How It Works</h2>
           <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
             <li className="flex items-center gap-3"><div className="w-2 h-2 bg-blue-600"></div> Click any color band to copy the code.</li>
-            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-rose-600"></div> Automatically generates a 5-step monochromatic scale.</li>
+             <li className="flex items-center gap-3"><div className="w-2 h-2 bg-rose-600"></div> Automatically generates a 5-step monochromatic scale.</li>
             <li className="flex items-center gap-3"><div className="w-2 h-2 bg-emerald-600"></div> Output includes Hex and HSL values.</li>
           </ul>
-        </div>
+        </NeoBlock>
       </div>
     </div>
   );

@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Mountain, Rocket, Laptop, Palette, Zap, Flame, Star, Lightbulb, MoveLeft, BoxSelect } from "lucide-react";
+import { Mountain, Rocket, Laptop, Palette, Zap, Flame, Star, Lightbulb, BoxSelect } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
+import { NeoButton } from "@/components/ui/NeoButton";
 
 interface Card {
   id: number;
@@ -114,79 +117,65 @@ export default function MemoryGame() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#2563EB]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-rose-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <BoxSelect className="w-6 h-6" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Memory Game</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">MATCH ALL PAIRS!</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Memory Game" 
+        subtitle="MATCH ALL PAIRS!" 
+        icon={<BoxSelect className="w-6 h-6" />} 
+        iconClass="bg-rose-600 text-white" 
+        shadowClass="shadow-[0_4px_0_0_#2563EB]" 
+      />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Stats */}
         <div className="grid grid-cols-3 gap-6 mb-12">
-          <div className="p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          <NeoBlock noPadding className="p-6 text-center" shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]">
             <div className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-zinc-50 mb-2">
               {moves}
             </div>
             <div className="text-sm md:text-base font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Moves</div>
-          </div>
-          <div className="p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          </NeoBlock>
+          <NeoBlock noPadding className="p-6 text-center" shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]">
             <div className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-zinc-50 mb-2">
               {cards.filter((c) => c.matched).length / 2}
             </div>
             <div className="text-sm md:text-base font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest">Pairs</div>
-          </div>
-          <div className="p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          </NeoBlock>
+          <NeoBlock noPadding className="p-6 text-center" shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]">
             <div className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-zinc-50 mb-2">
               {bestScore ?? "-"}
             </div>
             <div className="text-sm md:text-base font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Best</div>
-          </div>
+          </NeoBlock>
         </div>
 
         {/* Game Grid */}
         {!gameOver ? (
-          <div className="grid grid-cols-4 gap-4 sm:gap-6 bg-zinc-100 dark:bg-zinc-800/50 p-6 sm:p-8 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#2563EB]">
-            {cards.map((card) => (
-              <button
-                key={card.id}
-                onClick={() => handleCardClick(card.id)}
-                disabled={card.matched}
-                className={`
-                  aspect-square border-4 border-zinc-900 dark:border-zinc-100 flex items-center justify-center
-                  transition-all duration-200 cursor-pointer
-                  ${card.flipped || card.matched
-                    ? "bg-white dark:bg-zinc-800 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.1)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)] text-blue-600 dark:text-blue-400"
-                    : "bg-blue-600 hover:bg-blue-500 shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa]"
-                  }
-                  ${flippedCards.includes(card.id) ? "scale-95 translate-y-1 shadow-none" : "hover:-translate-y-1"}
-                  ${card.matched ? "opacity-50" : ""}
-                `}
-              >
-                {card.flipped || card.matched ? getIcon(card.iconType, "w-8 h-8 sm:w-12 sm:h-12") : <CardBack />}
-              </button>
-            ))}
-          </div>
+          <NeoBlock shadowClass="shadow-[8px_8px_0_0_#2563EB]" className="bg-zinc-100 dark:bg-zinc-800/50 p-6 sm:p-8">
+            <div className="grid grid-cols-4 gap-4 sm:gap-6">
+              {cards.map((card) => (
+                <button
+                  key={card.id}
+                  onClick={() => handleCardClick(card.id)}
+                  disabled={card.matched}
+                  className={`
+                    aspect-square border-4 border-zinc-900 dark:border-zinc-100 flex items-center justify-center
+                    transition-all duration-200 cursor-pointer
+                    ${card.flipped || card.matched
+                      ? "bg-white dark:bg-zinc-800 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.1)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)] text-blue-600 dark:text-blue-400"
+                      : "bg-blue-600 hover:bg-blue-500 shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa]"
+                    }
+                    ${flippedCards.includes(card.id) ? "scale-95 translate-y-1 shadow-none" : "hover:-translate-y-1"}
+                    ${card.matched ? "opacity-50" : ""}
+                  `}
+                >
+                  {card.flipped || card.matched ? getIcon(card.iconType, "w-8 h-8 sm:w-12 sm:h-12") : <CardBack />}
+                </button>
+              ))}
+            </div>
+          </NeoBlock>
         ) : (
           /* Game Over */
-          <div className="p-12 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#E11D48] text-center">
+          <NeoBlock shadowClass="shadow-[12px_12px_0_0_#E11D48]" className="p-12 text-center">
             <div className="flex justify-center mb-6">
               <div className="w-20 h-20 bg-rose-500 border-4 border-zinc-900 flex items-center justify-center animate-bounce">
                 <Star className="w-10 h-10 text-white" />
@@ -202,17 +191,16 @@ export default function MemoryGame() {
                 </span>
               )}
             </p>
-            <button
-              onClick={initializeGame}
-              className="px-8 py-4 bg-emerald-500 text-zinc-900 font-black text-xl border-4 border-zinc-900 shadow-[6px_6px_0_0_#18181b] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase"
-            >
-              Play Again
-            </button>
-          </div>
+            <div className="flex justify-center">
+              <NeoButton onClick={initializeGame} variant="success" className="px-8 py-4 text-xl">
+                Play Again
+              </NeoButton>
+            </div>
+          </NeoBlock>
         )}
 
         {/* Instructions */}
-        <div className="mt-12 p-8 bg-zinc-100 dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]">
+        <NeoBlock shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]" className="mt-12 bg-zinc-100 dark:bg-zinc-900">
           <h2 className="text-2xl font-black mb-4 dark:text-zinc-50 uppercase">How to Play</h2>
           <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
             <li className="flex items-center gap-3"><div className="w-2 h-2 bg-blue-600"></div> Click a card to flip it</li>
@@ -220,7 +208,7 @@ export default function MemoryGame() {
             <li className="flex items-center gap-3"><div className="w-2 h-2 bg-emerald-600"></div> Complete in as few moves as possible</li>
             <li className="flex items-center gap-3"><div className="w-2 h-2 bg-amber-600"></div> Your best score is saved locally</li>
           </ul>
-        </div>
+        </NeoBlock>
       </div>
     </div>
   );

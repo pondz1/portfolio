@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import Link from 'next/link';
-import { MoveLeft, Trophy, Crown, Gamepad2, Skull, RefreshCw } from 'lucide-react';
+import { Trophy, Crown, Gamepad2, Skull, RefreshCw } from 'lucide-react';
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
+import { NeoButton } from "@/components/ui/NeoButton";
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
@@ -248,35 +250,19 @@ export default function SnakeGame() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#22c55e]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-500 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-zinc-900 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <BoxIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Snake</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">DON'T HIT THE WALLS</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-emerald-500 hover:text-zinc-900 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Snake" 
+        subtitle="DON'T HIT THE WALLS" 
+        icon={<BoxIcon className="w-5 h-5" />} 
+        iconClass="bg-emerald-500 text-zinc-900" 
+        shadowClass="shadow-[0_4px_0_0_#22c55e]" 
+      />
 
       <div className="container mx-auto px-4 mt-8 md:mt-12 max-w-5xl">
         <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
           
           {/* Game Area */}
-          <div className="bg-white dark:bg-zinc-900 p-6 md:p-8 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#22c55e] flex-1 max-w-[480px] w-full mx-auto">
+          <NeoBlock shadowClass="shadow-[12px_12px_0_0_#22c55e]" className="flex-1 max-w-[480px] w-full mx-auto">
             <div className="flex justify-between items-center mb-8 border-b-4 border-zinc-900 dark:border-zinc-100 pb-4">
               <div className="flex items-center gap-3">
                 <Trophy className="w-6 h-6 text-emerald-500" />
@@ -308,13 +294,9 @@ export default function SnakeGame() {
                   <div className="text-4xl font-black text-white mb-2 uppercase tracking-tight">Game Over</div>
                   <p className="text-zinc-300 font-bold mb-8 text-center">Score: {score}</p>
                   
-                  <button
-                    onClick={startGame}
-                    className="flex items-center gap-2 bg-emerald-500 text-zinc-900 font-black px-8 py-4 border-4 border-zinc-900 shadow-[6px_6px_0_0_#18181b] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase"
-                  >
-                    <RefreshCw className="w-5 h-5" />
-                    Play Again
-                  </button>
+                  <NeoButton onClick={startGame} variant="success" className="px-8 py-4">
+                    <RefreshCw className="w-5 h-5" /> Play Again
+                  </NeoButton>
                 </div>
               )}
             </div>
@@ -322,11 +304,11 @@ export default function SnakeGame() {
             <div className="text-center font-bold text-zinc-600 dark:text-zinc-400 p-4 bg-zinc-100 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-100">
               {gameOver ? 'Press spacebar to restart' : 'Use arrow keys to move'}
             </div>
-          </div>
+          </NeoBlock>
 
           {/* Controls Information */}
           <div className="flex-1 w-full max-w-sm mx-auto flex flex-col gap-6">
-            <div className="bg-white dark:bg-zinc-900 p-6 md:p-8 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
+            <NeoBlock shadowClass="shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
               <h2 className="flex items-center gap-2 text-2xl font-black uppercase mb-6 dark:text-white">
                 <Gamepad2 className="w-6 h-6 text-blue-600" /> Controls
               </h2>
@@ -343,15 +325,15 @@ export default function SnakeGame() {
               <p className="font-bold text-center text-zinc-600 dark:text-zinc-400">
                 You can also use SPACEBAR to restart the game when it's over.
               </p>
-            </div>
+            </NeoBlock>
             
-            <div className="bg-white dark:bg-zinc-900 p-6 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
+            <NeoBlock shadowClass="shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]" className="p-6">
               <h2 className="text-xl font-black uppercase mb-4 dark:text-white">Rules</h2>
               <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
                 <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-rose-600"></div> Eat the red food to grow and earn 10 points.</li>
                 <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-blue-600"></div> Don't hit the walls or yourself!</li>
               </ul>
-            </div>
+            </NeoBlock>
           </div>
           
         </div>

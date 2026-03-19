@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { MoveLeft, X, Circle, Trophy, RefreshCw, Hash } from "lucide-react";
+import { X, Circle, RefreshCw, Hash } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
+import { NeoButton } from "@/components/ui/NeoButton";
 
 type Player = "X" | "O" | null;
 type Winner = "X" | "O" | "draw" | null;
@@ -63,69 +65,53 @@ export default function TicTacToe() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#9333EA]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <Hash className="w-6 h-6" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Tic-Tac-Toe</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">CLASSIC 3-IN-A-ROW</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-purple-600 hover:text-white transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Tic-Tac-Toe" 
+        subtitle="CLASSIC 3-IN-A-ROW" 
+        icon={<Hash className="w-6 h-6" />} 
+        iconClass="bg-purple-600 text-white" 
+        shadowClass="shadow-[0_4px_0_0_#9333EA]" 
+      />
 
       <div className="container mx-auto px-4 mt-8 md:mt-12 max-w-4xl">
         {/* Scoreboard */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
-          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] flex flex-col items-center justify-center">
+          <NeoBlock noPadding className="p-4 md:p-6 flex flex-col items-center justify-center" shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]">
             <div className={`flex items-center justify-center mb-2 ${currentPlayer === "X" ? "text-blue-600" : "text-rose-600"}`}>
               {currentPlayer === "X" ? <X className="w-10 h-10 stroke-[3]" /> : <Circle className="w-10 h-10 stroke-[3]" />}
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Current Turn</div>
-          </div>
+          </NeoBlock>
           
-          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#2563EB] flex flex-col items-center justify-center">
+          <NeoBlock noPadding className="p-4 md:p-6 flex flex-col items-center justify-center" shadowClass="shadow-[6px_6px_0_0_#2563EB]">
              <div className="flex items-center gap-2 mb-2 text-blue-600">
               <X className="w-6 h-6 stroke-[3]" />
               <span className="text-3xl md:text-4xl font-black">{xWins}</span>
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Wins</div>
-          </div>
+          </NeoBlock>
 
-          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#E11D48] flex flex-col items-center justify-center">
+          <NeoBlock noPadding className="p-4 md:p-6 flex flex-col items-center justify-center" shadowClass="shadow-[6px_6px_0_0_#E11D48]">
              <div className="flex items-center gap-2 mb-2 text-rose-600">
               <Circle className="w-6 h-6 stroke-[3]" />
               <span className="text-3xl md:text-4xl font-black">{oWins}</span>
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Wins</div>
-          </div>
+          </NeoBlock>
 
-          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#9333EA] flex flex-col items-center justify-center">
+          <NeoBlock noPadding className="p-4 md:p-6 flex flex-col items-center justify-center" shadowClass="shadow-[6px_6px_0_0_#9333EA]">
              <div className="text-3xl md:text-4xl font-black text-purple-600 mb-2">
               {draws}
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Draws</div>
-          </div>
+          </NeoBlock>
         </div>
 
         {/* Game Board Container */}
         <div className="max-w-md mx-auto">
           {/* Winner Banner */}
           {winner && (
-            <div className={`text-center mb-8 p-6 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa] ${
+            <NeoBlock noPadding shadowClass="shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]" className={`text-center p-6 mb-8 ${
               winner === "X" ? "bg-blue-100 dark:bg-blue-900/40" : winner === "O" ? "bg-rose-100 dark:bg-rose-900/40" : "bg-purple-100 dark:bg-purple-900/40"
             }`}>
               <div className="flex items-center justify-center gap-4">
@@ -138,10 +124,10 @@ export default function TicTacToe() {
               }`}>
                 {winner === "draw" ? "It's a draw!" : "Wins!"}
               </h2>
-            </div>
+            </NeoBlock>
           )}
 
-          <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#9333EA] p-6 sm:p-8 mb-12">
+          <NeoBlock shadowClass="shadow-[12px_12px_0_0_#9333EA]" className="p-6 sm:p-8 mb-12">
             <div className="grid grid-cols-3 gap-3 sm:gap-4">
               {board.map((cell, index) => (
                 <button
@@ -164,16 +150,13 @@ export default function TicTacToe() {
                 </button>
               ))}
             </div>
-          </div>
+          </NeoBlock>
 
           <div className="flex justify-center">
-            <button
-              onClick={resetGame}
-              className="flex items-center gap-3 px-8 py-4 bg-purple-600 text-white font-black text-xl border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase tracking-wide cursor-pointer"
-            >
+            <NeoButton onClick={resetGame} className="bg-purple-600 hover:bg-purple-500 text-white text-xl px-8 py-4">
               <RefreshCw className="w-6 h-6 stroke-[3]" />
               New Game
-            </button>
+            </NeoButton>
           </div>
         </div>
       </div>

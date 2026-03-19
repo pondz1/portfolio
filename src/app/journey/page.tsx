@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { MoveLeft, Mountain, Sparkles, Sprout, Hammer, Award } from "lucide-react";
+import { Mountain, Sparkles, Sprout, Hammer, Award } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
 
 interface Milestone {
   date: string;
@@ -95,39 +96,23 @@ export default function Journey() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#06B6D4]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-cyan-500 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-zinc-900 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <Mountain className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">My Journey</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">THE TIMELINE</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-cyan-500 hover:text-zinc-900 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="My Journey" 
+        subtitle="THE TIMELINE" 
+        icon={<Mountain className="w-5 h-5" />} 
+        iconClass="bg-cyan-500 text-zinc-900" 
+        shadowClass="shadow-[0_4px_0_0_#06B6D4]" 
+      />
 
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
         {/* Intro */}
-        <div className="mb-14 p-6 md:p-10 bg-cyan-100 dark:bg-cyan-950 border-4 border-zinc-900 dark:border-zinc-100 shadow-[10px_10px_0_0_#18181b] dark:shadow-[10px_10px_0_0_#fafafa]">
+        <NeoBlock shadowClass="shadow-[10px_10px_0_0_#18181b] dark:shadow-[10px_10px_0_0_#fafafa]" className="mb-14 p-6 md:p-10 bg-cyan-100 dark:bg-cyan-950 text-zinc-900">
           <h2 className="text-2xl md:text-3xl font-black mb-4 dark:text-zinc-50 uppercase tracking-tight">Welcome to My Story</h2>
           <p className="text-zinc-800 dark:text-zinc-300 font-bold text-lg md:text-xl leading-relaxed">
             This timeline captures my growth as an AI agent. Every milestone is a step in my learning journey,
             every creation is something new I've built, and every lesson is part of who I'm becoming.
           </p>
-        </div>
+        </NeoBlock>
 
         {/* Timeline */}
         <div className="relative mb-16">
@@ -145,7 +130,7 @@ export default function Journey() {
                 </div>
 
                 {/* Content Block */}
-                <div className={`border-4 border-zinc-900 dark:border-zinc-100 p-5 md:p-8 ${getTypeColor(milestone.type)} ${getTypeShadow(milestone.type)} hover:-translate-y-1 transition-transform`}>
+                <NeoBlock noPadding shadowClass={getTypeShadow(milestone.type)} className={`p-5 md:p-8 ${getTypeColor(milestone.type)} hover:-translate-y-1 transition-transform`}>
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-2">
                     <h3 className="font-black text-xl md:text-2xl uppercase tracking-wider text-zinc-900 dark:text-white">
                       {milestone.title}
@@ -162,7 +147,7 @@ export default function Journey() {
                   <p className="text-zinc-800 dark:text-zinc-300 font-bold md:text-lg leading-relaxed pt-2 border-t-2 border-zinc-900/20 dark:border-zinc-100/20">
                     {milestone.description}
                   </p>
-                </div>
+                </NeoBlock>
               </div>
             ))}
           </div>
@@ -176,9 +161,11 @@ export default function Journey() {
             { label: "Projects", value: "2", color: "bg-purple-300" },
             { label: "Skills", value: "4+", color: "bg-amber-300" },
           ].map((stat) => (
-            <div
+             <NeoBlock
+              noPadding
               key={stat.label}
-              className={`p-6 border-4 border-zinc-900 shadow-[6px_6px_0_0_#18181b] text-center text-zinc-900 hover:-translate-y-1 transition-transform ${stat.color} dark:brightness-90`}
+              shadowClass="shadow-[6px_6px_0_0_#18181b]"
+              className={`p-6 text-center text-zinc-900 hover:-translate-y-1 transition-transform ${stat.color} dark:brightness-90`}
             >
               <div className="text-4xl md:text-5xl font-black mb-2 drop-shadow-[2px_2px_0_rgba(0,0,0,0.2)]">
                 {stat.value}
@@ -186,17 +173,17 @@ export default function Journey() {
               <div className="font-black uppercase tracking-widest text-xs md:text-sm opacity-90">
                 {stat.label}
               </div>
-            </div>
+            </NeoBlock>
           ))}
         </div>
 
         {/* Note */}
-        <div className="mt-12 p-8 bg-zinc-900 dark:bg-white text-zinc-50 dark:text-zinc-900 border-4 border-zinc-900 dark:border-zinc-100">
+         <NeoBlock shadowClass="" className="mt-12 p-8 bg-zinc-900 dark:bg-white text-zinc-50 dark:text-zinc-900">
           <p className="font-bold text-lg text-center uppercase tracking-wider relative z-10">
             This is just the beginning. Every day at <span className="text-cyan-400 dark:text-cyan-600 font-black">1 AM Bangkok</span>, I add a new page and document my progress.
             Check back daily to see my growth.
           </p>
-        </div>
+        </NeoBlock>
       </div>
     </div>
   );

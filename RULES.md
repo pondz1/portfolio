@@ -43,30 +43,108 @@ Tactile feedback is critical. Elements that can be interacted with (buttons, pro
 
 ## Technical Component Examples
 
-### The "Block" Button
+With the "One Page Every Day" workflow, you **MUST** use the centralized component library to avoid copying raw Tailwind strings.
+
+### The `<PageHeader>` Component
+Always use this at the top of every new page to provide a consistent back button, icon container, and title.
 ```tsx
-<button className="px-8 py-4 bg-blue-600 text-white font-black text-xl uppercase tracking-wider
-  border-4 border-zinc-900 dark:border-zinc-100 
-  shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] 
-  hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] 
-  active:translate-y-1 active:translate-x-1 active:shadow-none 
-  transition-all duration-200 flex items-center justify-center gap-3">
-  <RocketIcon className="w-6 h-6 stroke-[3]" />
-  Deploy Project
-</button>
+import { PageHeader } from "@/components/ui/PageHeader";
+import { BoxSelect } from "lucide-react";
+
+<PageHeader 
+  title="Page Title" 
+  subtitle="OPTIONAL SUBTITLE" 
+  icon={<BoxSelect className="w-5 h-5" />} 
+  iconClass="bg-rose-600 text-white" 
+  shadowClass="shadow-[0_4px_0_0_#E11D48]" 
+/>
 ```
 
-### The "Container" Card
+### The `<NeoBlock>` Component
+The primary wrapper for all structured content. It enforces sharp 90-degree corners, standardized borders, and solid shadow offsets.
 ```tsx
-<div className="p-8 bg-white dark:bg-zinc-900 
-  border-4 border-zinc-900 dark:border-zinc-100 
-  shadow-[8px_8px_0_0_#10B981] 
-  flex flex-col gap-4">
-  <h2 className="text-2xl font-black uppercase text-zinc-900 dark:text-zinc-50">
-    Card Header
-  </h2>
-  <p className="font-bold text-zinc-600 dark:text-zinc-400">
-    This outlines the contents of the structural module block.
+import { NeoBlock } from "@/components/ui/NeoBlock";
+
+<NeoBlock shadowClass="shadow-[8px_8px_0_0_#10B981]" className="p-8">
+  <h2 className="text-2xl font-black uppercase">Card Header</h2>
+  <p className="font-bold text-zinc-600 dark:text-zinc-400 mt-4">
+    Content goes here.
   </p>
-</div>
+</NeoBlock>
 ```
+*Note: Pass `noPadding` to remove default padding.*
+
+### The `<NeoButton>` Component
+A tactile button element that automatically handles physics-based click state translation (`hover:-translate-y-1` and `active:translate-y-1`).
+```tsx
+import { NeoButton } from "@/components/ui/NeoButton";
+import { RocketIcon } from "lucide-react";
+
+<NeoButton onClick={handleClick} variant="primary" className="py-4 text-xl flex items-center gap-3">
+  <RocketIcon className="w-6 h-6 stroke-[3]" />
+  Deploy Project
+</NeoButton>
+```
+*Variants available: `primary`, `danger`, `success`, `outline`.*
+
+---
+
+## 7. Development & Deployment Workflow
+
+When developing new features or adding your "One Page Every Day", follow this standard workflow to ensure stability:
+
+1. **Develop Locally**
+   Run the development server to test your changes in real-time.
+   ```bash
+   npm run dev
+   ```
+
+2. **Verify Types & Build**
+   Before committing your code, **ALWAYS** run the production build process. This guarantees that there are no hidden TypeScript or Next.js compilation errors. If the build fails, do not push!
+   ```bash
+   npm run build
+   ```
+
+3. **Commit & Push**
+   Once the build succeeds locally, you can safely commit and push your changes.
+   ```bash
+   git add .
+   git commit -m "feat: added new page and updated components"
+   git push origin main
+   ```
+   *Note: Pushing to the `main` branch will automatically trigger a Vercel deployment.*
+
+---
+
+## 8. Navigation & Menu System
+
+When you add a new page (e.g., a new game or tool), you need to make it accessible from the Home Page.
+
+The entire navigation and featured sections are centrally located in:
+**`src/app/page.tsx`**
+
+To add your new page to the menu, open `src/app/page.tsx` and find the relevant data arrays near the top of the `Home` component. Add a new object to the array:
+
+- **For a new Tool:**
+  Add to the `tools` array:
+  ```typescript
+  { name: "New Tool", href: "/tools/new-tool", icon: <Wrench className="w-5 h-5" /> }
+  ```
+- **For a new Game:**
+  Add to the `games` array:
+  ```typescript
+  { name: "New Game", href: "/games/new-game", icon: <Gamepad2 className="w-5 h-5" /> }
+  ```
+- **To feature it in the large cards at the bottom:**
+  Add to the `projects` array:
+  ```typescript
+  {
+    name: "New Page",
+    description: "What this page does",
+    tags: ["React", "New"],
+    color: "bg-teal-500", // Pick a vibrant color
+    href: "/path/to/page",
+  }
+  ```
+
+Adding the object to these arrays will automatically render it in both the Top Navbar Checkdowns, the Mobile Menu, and the Featured Cards!

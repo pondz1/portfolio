@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { MoveLeft, BookOpen, Check, RefreshCw, Eye } from "lucide-react";
+import { BookOpen, Check, RefreshCw, Eye } from "lucide-react";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { NeoBlock } from "@/components/ui/NeoBlock";
 
 interface LearningItem {
   id: number;
@@ -117,69 +118,53 @@ export default function Learning() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
-      {/* Header */}
-      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#10B981]">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-500 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-zinc-900 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
-                <BookOpen className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Learning</h1>
-                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">WHAT I STUDY</p>
-              </div>
-            </div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-emerald-500 hover:text-zinc-900 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
-            >
-              <MoveLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader 
+        title="Learning" 
+        subtitle="WHAT I STUDY" 
+        icon={<BookOpen className="w-5 h-5" />} 
+        iconClass="bg-emerald-500 text-zinc-900" 
+        shadowClass="shadow-[0_4px_0_0_#10B981]" 
+      />
 
       <div className="container mx-auto px-4 py-8 md:py-12 max-w-5xl">
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
-          <div className="p-6 bg-blue-300 dark:bg-blue-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          <NeoBlock noPadding shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]" className="p-6 bg-blue-300 dark:bg-blue-900 text-center">
             <div className="text-5xl font-black text-zinc-900 dark:text-white mb-2 drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
               {learningCount}
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-blue-900 dark:text-blue-200">
               Learning
             </div>
-          </div>
-          <div className="p-6 bg-emerald-300 dark:bg-emerald-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          </NeoBlock>
+          <NeoBlock noPadding shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]" className="p-6 bg-emerald-300 dark:bg-emerald-900 text-center">
             <div className="text-5xl font-black text-zinc-900 dark:text-white mb-2 drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
               {completedCount}
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-emerald-900 dark:text-emerald-200">
               Completed
             </div>
-          </div>
-          <div className="p-6 bg-purple-300 dark:bg-purple-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          </NeoBlock>
+          <NeoBlock noPadding shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]" className="p-6 bg-purple-300 dark:bg-purple-900 text-center">
             <div className="text-5xl font-black text-zinc-900 dark:text-white mb-2 drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
               {exploringCount}
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-purple-900 dark:text-purple-200">
               Exploring
             </div>
-          </div>
-          <div className="p-6 bg-amber-300 dark:bg-amber-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+          </NeoBlock>
+          <NeoBlock noPadding shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]" className="p-6 bg-amber-300 dark:bg-amber-900 text-center">
             <div className="text-5xl font-black text-zinc-900 dark:text-white mb-2 drop-shadow-[2px_2px_0_rgba(0,0,0,0.1)]">
               {avgProgress}%
             </div>
             <div className="text-sm font-black uppercase tracking-widest text-amber-900 dark:text-amber-200">
               Avg Prog
             </div>
-          </div>
+          </NeoBlock>
         </div>
 
         {/* Progress Overview */}
-        <div className="mb-14 p-6 md:p-8 bg-zinc-100 dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
+        <NeoBlock shadowClass="shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]" className="mb-14 p-6 md:p-8 bg-zinc-100 dark:bg-zinc-900">
           <h2 className="text-2xl font-black mb-6 uppercase border-l-8 border-emerald-500 pl-4 dark:text-zinc-50">Sprint Progress</h2>
           <div className="space-y-6">
             {items.slice(0, 5).map((item) => (
@@ -197,7 +182,7 @@ export default function Learning() {
               </div>
             ))}
           </div>
-        </div>
+        </NeoBlock>
 
         {/* Learning Items */}
         <div className="mb-16">
@@ -206,14 +191,16 @@ export default function Learning() {
           </h2>
           <div className="grid gap-6">
             {items.map((item) => (
-              <div
+              <NeoBlock
+                noPadding
                 key={item.id}
-                className="p-6 md:p-8 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
+                shadowClass="shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]"
+                className="p-6 md:p-8 bg-white dark:bg-zinc-900 hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span
-                      className={`flex items-center gap-1.5 px-3 py-1 border-2 text-xs font-black uppercase tracking-widest ${getStatusColor(
+                      className={`flex items-center gap-1.5 px-3 py-1 border-2 border-zinc-900 text-xs font-black uppercase tracking-widest ${getStatusColor(
                         item.status
                       )}`}
                     >
@@ -244,13 +231,13 @@ export default function Learning() {
                     </div>
                   </div>
                 )}
-              </div>
+              </NeoBlock>
             ))}
           </div>
         </div>
 
         {/* Learning Philosophy */}
-        <div className="p-8 md:p-10 bg-blue-100 dark:bg-blue-950 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#3B82F6]">
+        <NeoBlock shadowClass="shadow-[8px_8px_0_0_#3B82F6]" className="p-8 md:p-10 bg-blue-100 dark:bg-blue-950">
           <h2 className="text-2xl font-black mb-6 uppercase text-zinc-900 dark:text-zinc-50 border-b-4 border-zinc-900/20 dark:border-zinc-100/20 pb-4">My Philosophy</h2>
           <ul className="space-y-4 font-bold text-lg text-zinc-800 dark:text-zinc-300">
             <li className="flex items-start gap-4">
@@ -274,7 +261,7 @@ export default function Learning() {
               <span>Help others — what I learn helps pondjs and future projects.</span>
             </li>
           </ul>
-        </div>
+        </NeoBlock>
       </div>
     </div>
   );
