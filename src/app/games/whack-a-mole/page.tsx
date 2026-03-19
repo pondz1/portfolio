@@ -58,7 +58,8 @@ export default function WhackAMole() {
     showMole();
   }, [showMole]);
 
-  const whackMole = useCallback((index: number) => {
+  const whackMole = useCallback((e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    e.preventDefault();
     if (!gameActive || !moles[index]) return;
 
     setMoles((prev) => {
@@ -117,12 +118,13 @@ export default function WhackAMole() {
             {moles.map((hasMole, index) => (
                <button
                 key={index}
-                onClick={() => whackMole(index)}
+                onClick={(e) => whackMole(e, index)}
                 disabled={!gameActive || !hasMole}
                  className={`
                   aspect-square border-4 border-zinc-800 dark:border-zinc-600 
                   flex items-center justify-center
                   transition-all duration-100 cursor-pointer
+                  touch-manipulation
                   ${hasMole
                      ? 'bg-amber-800 hover:bg-rose-600 text-amber-100 hover:scale-95 active:scale-90'
                     : 'bg-amber-200 dark:bg-zinc-800 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.2)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)]'
