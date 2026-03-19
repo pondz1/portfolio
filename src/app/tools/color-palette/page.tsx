@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { Palette, MoveLeft, Copy } from "lucide-react";
 
 export default function ColorPalette() {
   const [baseColor, setBaseColor] = useState("#3B82F6");
@@ -45,15 +47,9 @@ export default function ColorPalette() {
       const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
       switch (max) {
-        case r:
-          h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-          break;
-        case g:
-          h = ((b - r) / d + 2) / 6;
-          break;
-        case b:
-          h = ((r - g) / d + 4) / 6;
-          break;
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
       }
     }
 
@@ -63,7 +59,7 @@ export default function ColorPalette() {
   function getContrastColor(hex: string): string {
     const [r, g, b] = hexToRgb(hex);
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness > 128 ? "#1F2937" : "#FFFFFF";
+    return brightness > 128 ? "#18181b" : "#fafafa";
   }
 
   function copyToClipboard(text: string): void {
@@ -79,46 +75,54 @@ export default function ColorPalette() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
       {/* Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800">
+      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#F59E0B]">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold dark:text-white">Color Palette Generator</h1>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Create beautiful color palettes</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-amber-500 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-zinc-900 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
+                <Palette className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Color Palette</h1>
+                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">BEAUTIFUL SHADES</p>
+              </div>
             </div>
-            <a
+            <Link
               href="/"
-              className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-amber-500 hover:text-zinc-900 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
             >
-              ← Back to Portfolio
-            </a>
+              <MoveLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back</span>
+            </Link>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Generator */}
-        <div className="mb-8 p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm">
-          <div className="flex flex-col md:flex-row gap-6 items-center">
+      <div className="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        {/* Generator Controls */}
+        <div className="mb-12 p-6 md:p-8 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#F59E0B]">
+          <div className="flex flex-col md:flex-row gap-6 items-end">
             <div className="flex-1 w-full">
-              <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                Base Color
+              <label className="block text-sm font-black uppercase text-zinc-900 dark:text-zinc-50 mb-2">
+                Base Color Hex
               </label>
-              <div className="flex gap-2">
-                <input
-                  type="color"
-                  value={baseColor}
-                  onChange={(e) => {
-                    setBaseColor(e.target.value);
-                    setPalettes([generatePalette(e.target.value), ...palettes]);
-                  }}
-                  className="w-16 h-10 rounded cursor-pointer"
-                />
+              <div className="flex items-center gap-3">
+                <div className="relative border-2 border-zinc-900 dark:border-zinc-100 overflow-hidden w-14 h-14 shrink-0 shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa]">
+                  <input
+                    type="color"
+                    value={baseColor}
+                    onChange={(e) => {
+                      setBaseColor(e.target.value);
+                      setPalettes([generatePalette(e.target.value), ...palettes]);
+                    }}
+                    className="absolute -inset-2 w-[200%] h-[200%] cursor-pointer"
+                  />
+                </div>
                 <input
                   type="text"
-                  value={baseColor}
+                  value={baseColor.toUpperCase()}
                   onChange={(e) => {
                     const val = e.target.value;
                     if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
@@ -126,58 +130,60 @@ export default function ColorPalette() {
                       setPalettes([generatePalette(val), ...palettes]);
                     }
                   }}
-                  className="flex-1 px-3 py-2 border border-zinc-300 dark:border-zinc-600 rounded-lg dark:bg-zinc-700 dark:text-white"
+                  className="flex-1 px-4 py-4 uppercase font-black text-xl border-4 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 focus:outline-none focus:border-amber-500 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.05)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.05)]"
                 />
               </div>
             </div>
             <button
               onClick={generateNewPalette}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+              className="px-8 py-4 bg-blue-600 text-white font-black text-lg border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase whitespace-nowrap"
             >
-              Generate Random Palette
+              Random Palette
             </button>
           </div>
         </div>
 
-        {/* Palettes */}
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* Palettes Grid */}
+        <div className="grid md:grid-cols-2 gap-8">
           {palettes.map((palette, idx) => (
             <div
               key={idx}
-              className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm overflow-hidden"
+              className="bg-zinc-100 dark:bg-zinc-800 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa] flex flex-col"
             >
-              <div className="flex h-64">
+              <div className="flex h-64 border-b-4 border-zinc-900 dark:border-zinc-100">
                 {palette.map((color, colorIdx) => (
                   <div
                     key={colorIdx}
-                    className="flex-1 flex items-end justify-center pb-4 cursor-pointer hover:opacity-90 transition group relative"
+                    className="flex-1 flex flex-col items-center justify-end pb-6 cursor-pointer hover:flex-[1.5] transition-all duration-300 group border-r-2 border-zinc-900/20 last:border-r-0"
                     style={{ backgroundColor: color }}
                     onClick={() => copyToClipboard(color)}
                   >
-                    <div className={`text-sm font-medium ${idx === 0 ? "animate-pulse" : ""}`} style={{ color: getContrastColor(color) }}>
-                      {color}
+                    <div 
+                      className={`text-sm md:text-base font-black opacity-0 group-hover:opacity-100 transition-opacity rotate-[-90deg] mb-6 whitespace-nowrap tracking-wider`}
+                      style={{ color: getContrastColor(color) }}
+                    >
+                      {color.toUpperCase()}
                     </div>
-                    {colorIdx < palette.length - 1 && (
-                      <div
-                        className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-r from-transparent to-black/10"
-                      ></div>
-                    )}
+                    <Copy 
+                      className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" 
+                      style={{ color: getContrastColor(color) }} 
+                    />
                   </div>
                 ))}
               </div>
-              <div className="p-4 border-t border-zinc-200 dark:border-zinc-700">
+              <div className="p-4 bg-white dark:bg-zinc-900">
                 <div className="flex gap-2">
                   {palette.map((color) => (
                     <div
                       key={color}
-                      className="flex-1 text-center"
+                      className="flex-1 text-center group"
                       onClick={() => copyToClipboard(color)}
                     >
                       <div
-                        className="w-full h-8 rounded mb-1 cursor-pointer hover:scale-105 transition"
+                        className="w-full h-10 border-2 border-zinc-900 dark:border-zinc-100 mb-2 cursor-pointer group-hover:-translate-y-1 transition-transform shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]"
                         style={{ backgroundColor: color }}
                       ></div>
-                      <div className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
+                      <div className="text-[10px] md:text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase truncate px-1">
                         {hexToHsl(color)}
                       </div>
                     </div>
@@ -189,13 +195,12 @@ export default function ColorPalette() {
         </div>
 
         {/* Info */}
-        <div className="mt-8 p-6 bg-zinc-100 dark:bg-zinc-800 rounded-xl">
-          <h2 className="font-semibold mb-3 dark:text-white">How it works</h2>
-          <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-            <li>• Click any color to copy its hex code</li>
-            <li>• Generate new palettes by picking a base color or using random</li>
-            <li>• Each palette is a 5-shade variation of the base color</li>
-            <li>• Text color automatically adjusts for contrast</li>
+        <div className="mt-12 p-8 bg-zinc-100 dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#F59E0B]">
+          <h2 className="text-xl font-black mb-4 dark:text-zinc-50 uppercase">How It Works</h2>
+          <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-blue-600"></div> Click any color band to copy the code.</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-rose-600"></div> Automatically generates a 5-step monochromatic scale.</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-emerald-600"></div> Output includes Hex and HSL values.</li>
           </ul>
         </div>
       </div>

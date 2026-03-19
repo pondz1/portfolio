@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
+import { MoveLeft, Trophy, Crown, Gamepad2, Skull, RefreshCw } from 'lucide-react';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
@@ -8,6 +10,12 @@ interface Position {
   x: number;
   y: number;
 }
+
+const BoxIcon = ({ className = "w-6 h-6" }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+  </svg>
+);
 
 export default function SnakeGame() {
   const gridSize = 20;
@@ -85,11 +93,14 @@ export default function SnakeGame() {
     setScore(0);
 
     if (gameLoopRef.current) clearInterval(gameLoopRef.current);
-    gameLoopRef.current = setInterval(moveSnake, 150);
+    gameLoopRef.current = setInterval(moveSnake, 120);
   }, [moveSnake]);
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     const currentDir = directionRef.current;
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+    }
     const newDir = e.key;
 
     // Prevent reversing direction
@@ -108,7 +119,7 @@ export default function SnakeGame() {
       e.preventDefault();
       startGame();
     }
-  }, [gameOver, startGame]);
+  }, [gameOver, startGame, setDirection]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -122,9 +133,9 @@ export default function SnakeGame() {
     };
   }, [startGame]);
 
-  const drawGrid = (ctx: CanvasRenderingContext2D) => {
-    ctx.strokeStyle = '#e0e0e0';
-    ctx.lineWidth = 0.5;
+  const drawGrid = (ctx: CanvasRenderingContext2D, isDark: boolean) => {
+    ctx.strokeStyle = isDark ? '#3f3f46' : '#e4e4e7';
+    ctx.lineWidth = 1;
 
     for (let i = 0; i <= gridSize; i++) {
       const pos = (canvasSize / gridSize) * i;
@@ -147,30 +158,30 @@ export default function SnakeGame() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const isDark = document.documentElement.classList.contains('dark');
+
     // Clear canvas
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = isDark ? '#18181b' : '#fafafa';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
     // Draw grid
-    drawGrid(ctx);
+    drawGrid(ctx, isDark);
 
-    // Draw food (apple)
     const cellSize = canvasSize / gridSize;
-    ctx.fillStyle = '#ef4444';
-    ctx.beginPath();
-    ctx.arc(
-      food.x * cellSize + cellSize / 2,
-      food.y * cellSize + cellSize / 2,
-      cellSize / 2 - 2,
-      0,
-      Math.PI * 2
+    
+    // Draw food (apple)
+    ctx.fillStyle = '#e11d48'; // rose-600
+    ctx.fillRect(
+      food.x * cellSize + 2,
+      food.y * cellSize + 2,
+      cellSize - 4,
+      cellSize - 4
     );
-    ctx.fill();
 
     // Draw snake
     snake.forEach((segment, index) => {
       const isHead = index === 0;
-      ctx.fillStyle = isHead ? '#22c55e' : '#4ade80';
+      ctx.fillStyle = isHead ? '#2563eb' : '#60a5fa'; // blue-600 vs blue-400
       ctx.fillRect(
         segment.x * cellSize + 1,
         segment.y * cellSize + 1,
@@ -180,7 +191,7 @@ export default function SnakeGame() {
 
       // Draw eyes on head
       if (isHead) {
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = '#fff';
         const eyeOffset = cellSize / 4;
         const eyeSize = 3;
 
@@ -215,77 +226,134 @@ export default function SnakeGame() {
             break;
         }
 
-        ctx.beginPath();
-        ctx.arc(eye1X, eye1Y, eyeSize, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(eye2X, eye2Y, eyeSize, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillRect(eye1X - eyeSize/2, eye1Y - eyeSize/2, eyeSize, eyeSize);
+        ctx.fillRect(eye2X - eyeSize/2, eye2Y - eyeSize/2, eyeSize, eyeSize);
       }
     });
+
+    // Draw border
+    ctx.strokeStyle = isDark ? '#fafafa' : '#18181b';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(0, 0, canvasSize, canvasSize);
+
   }, [snake, food, direction]);
 
   useEffect(() => {
     renderCanvas();
+    // Re-render on theme change
+    const observer = new MutationObserver(() => renderCanvas());
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
   }, [renderCanvas]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-2">🐍 Snake Game</h1>
-            <p className="text-purple-200">Eat the food, grow longer, don't hit the walls!</p>
-          </div>
-
-          <div className="flex justify-center gap-8 mb-6">
-            <div className="text-center">
-              <div className="text-sm text-purple-200">Score</div>
-              <div className="text-3xl font-bold text-white">{score}</div>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
+      {/* Header */}
+      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#22c55e]">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-emerald-500 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-zinc-900 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
+                <BoxIcon className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Snake</h1>
+                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">DON'T HIT THE WALLS</p>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-sm text-purple-200">High Score</div>
-              <div className="text-3xl font-bold text-yellow-400">{highScore}</div>
-            </div>
-          </div>
-
-          <div className="flex justify-center mb-6">
-            <canvas
-              id="snakeCanvas"
-              width={canvasSize}
-              height={canvasSize}
-              className="bg-white rounded-lg shadow-lg"
-            />
-          </div>
-
-          {gameOver && (
-            <div className="text-center mb-4">
-              <div className="text-2xl font-bold text-red-400 mb-2">Game Over!</div>
-              <p className="text-purple-200">Press Space or click the button to play again</p>
-            </div>
-          )}
-
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={startGame}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg"
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-emerald-500 hover:text-zinc-900 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
             >
-              {gameOver ? 'Play Again' : 'Restart'}
-            </button>
+              <MoveLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back</span>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 mt-8 md:mt-12 max-w-5xl">
+        <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
+          
+          {/* Game Area */}
+          <div className="bg-white dark:bg-zinc-900 p-6 md:p-8 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#22c55e] flex-1 max-w-[480px] w-full mx-auto">
+            <div className="flex justify-between items-center mb-8 border-b-4 border-zinc-900 dark:border-zinc-100 pb-4">
+              <div className="flex items-center gap-3">
+                <Trophy className="w-6 h-6 text-emerald-500" />
+                <div>
+                  <div className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Score</div>
+                  <div className="text-3xl font-black text-zinc-900 dark:text-zinc-50 leading-none">{score}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 text-right">
+                <div className="text-right">
+                  <div className="text-xs font-black text-amber-500 uppercase tracking-widest">High Score</div>
+                  <div className="text-3xl font-black text-amber-500 leading-none">{highScore}</div>
+                </div>
+                <Crown className="w-6 h-6 text-amber-500" />
+              </div>
+            </div>
+
+            <div className="flex justify-center mb-8 relative">
+              <canvas
+                id="snakeCanvas"
+                width={canvasSize}
+                height={canvasSize}
+                className="w-full max-w-[400px] aspect-square block bg-zinc-50 dark:bg-zinc-950"
+              />
+              
+              {gameOver && (
+                <div className="absolute inset-0 bg-zinc-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 border-4 border-zinc-900 dark:border-zinc-100 m-[2px]">
+                  <Skull className="w-16 h-16 text-rose-500 mb-4 animate-bounce" />
+                  <div className="text-4xl font-black text-white mb-2 uppercase tracking-tight">Game Over</div>
+                  <p className="text-zinc-300 font-bold mb-8 text-center">Score: {score}</p>
+                  
+                  <button
+                    onClick={startGame}
+                    className="flex items-center gap-2 bg-emerald-500 text-zinc-900 font-black px-8 py-4 border-4 border-zinc-900 shadow-[6px_6px_0_0_#18181b] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase"
+                  >
+                    <RefreshCw className="w-5 h-5" />
+                    Play Again
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            <div className="text-center font-bold text-zinc-600 dark:text-zinc-400 p-4 bg-zinc-100 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-100">
+              {gameOver ? 'Press spacebar to restart' : 'Use arrow keys to move'}
+            </div>
           </div>
 
-          <div className="mt-8 text-center text-purple-200 text-sm">
-            <div className="font-semibold mb-2">Controls:</div>
-            <div className="grid grid-cols-3 gap-2 max-w-[200px] mx-auto">
-              <div></div>
-              <div className="bg-white/10 rounded p-2">↑</div>
-              <div></div>
-              <div className="bg-white/10 rounded p-2">←</div>
-              <div className="bg-white/10 rounded p-2">↓</div>
-              <div className="bg-white/10 rounded p-2">→</div>
+          {/* Controls Information */}
+          <div className="flex-1 w-full max-w-sm mx-auto flex flex-col gap-6">
+            <div className="bg-white dark:bg-zinc-900 p-6 md:p-8 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
+              <h2 className="flex items-center gap-2 text-2xl font-black uppercase mb-6 dark:text-white">
+                <Gamepad2 className="w-6 h-6 text-blue-600" /> Controls
+              </h2>
+              
+              <div className="grid grid-cols-3 gap-3 max-w-[200px] mx-auto mb-6">
+                <div></div>
+                <div className="bg-zinc-100 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-100 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] p-3 text-center font-black dark:text-white">↑</div>
+                <div></div>
+                <div className="bg-zinc-100 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-100 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] p-3 text-center font-black dark:text-white">←</div>
+                <div className="bg-zinc-100 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-100 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] p-3 text-center font-black dark:text-white">↓</div>
+                <div className="bg-zinc-100 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-100 shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] p-3 text-center font-black dark:text-white">→</div>
+              </div>
+              
+              <p className="font-bold text-center text-zinc-600 dark:text-zinc-400">
+                You can also use SPACEBAR to restart the game when it's over.
+              </p>
             </div>
-            <p className="mt-2 text-purple-300">Use arrow keys or swipe to move</p>
+            
+            <div className="bg-white dark:bg-zinc-900 p-6 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]">
+              <h2 className="text-xl font-black uppercase mb-4 dark:text-white">Rules</h2>
+              <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
+                <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-rose-600"></div> Eat the red food to grow and earn 10 points.</li>
+                <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-blue-600"></div> Don't hit the walls or yourself!</li>
+              </ul>
+            </div>
           </div>
+          
         </div>
       </div>
     </div>

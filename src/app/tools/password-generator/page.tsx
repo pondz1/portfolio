@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { MoveLeft, Lock, RefreshCcw, Check, Fingerprint } from 'lucide-react';
 
 export default function PasswordGenerator() {
   const [password, setPassword] = useState('');
@@ -20,7 +22,7 @@ export default function PasswordGenerator() {
     if (includeSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
 
     if (chars === '') {
-      setPassword('Please select at least one option');
+      setPassword('!Please select an option!');
       return;
     }
 
@@ -33,7 +35,7 @@ export default function PasswordGenerator() {
   };
 
   const copyToClipboard = async () => {
-    if (password && password !== 'Please select at least one option') {
+    if (password && password !== '!Please select an option!') {
       await navigator.clipboard.writeText(password);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -41,7 +43,7 @@ export default function PasswordGenerator() {
   };
 
   const getPasswordStrength = (pwd: string) => {
-    if (!pwd || pwd === 'Please select at least one option') return { strength: 0, label: 'None', color: 'bg-gray-400' };
+    if (!pwd || pwd === '!Please select an option!') return { strength: 0, label: 'NONE', color: 'bg-zinc-400' };
 
     let strength = 0;
 
@@ -53,60 +55,87 @@ export default function PasswordGenerator() {
     if (/[0-9]/.test(pwd)) strength += 1;
     if (/[^A-Za-z0-9]/.test(pwd)) strength += 1;
 
-    if (strength >= 5) return { strength: 100, label: 'Very Strong', color: 'bg-green-500' };
-    if (strength >= 4) return { strength: 75, label: 'Strong', color: 'bg-green-400' };
-    if (strength >= 3) return { strength: 50, label: 'Medium', color: 'bg-yellow-400' };
-    if (strength >= 2) return { strength: 25, label: 'Weak', color: 'bg-orange-400' };
-    return { strength: 0, label: 'Very Weak', color: 'bg-red-400' };
+    if (strength >= 5) return { strength: 100, label: 'VERY STRONG', color: 'bg-emerald-500' };
+    if (strength >= 4) return { strength: 75, label: 'STRONG', color: 'bg-blue-500' };
+    if (strength >= 3) return { strength: 50, label: 'MEDIUM', color: 'bg-yellow-500' };
+    if (strength >= 2) return { strength: 25, label: 'WEAK', color: 'bg-rose-500' };
+    return { strength: 0, label: 'VERY WEAK', color: 'bg-rose-700' };
   };
 
   const strength = getPasswordStrength(password);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-2">🔐 Password Generator</h1>
-            <p className="text-blue-200">Generate strong, secure passwords instantly</p>
-          </div>
-
-          <div className="bg-black/30 rounded-xl p-6 mb-6">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
+      {/* Header */}
+      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#2563EB]">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <input
-                type="text"
-                value={password}
-                readOnly
-                className="flex-1 bg-transparent text-2xl text-white font-mono outline-none"
-                placeholder="Click generate to create a password"
-              />
-              <button
-                onClick={copyToClipboard}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                  copied ? 'bg-green-500 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'
-                }`}
-              >
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
+              <div className="w-10 h-10 bg-blue-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
+                <Lock className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Generator</h1>
+                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">SECURE PASSWORDS</p>
+              </div>
             </div>
-            <div className="mt-4">
-              <div className="flex justify-between text-sm text-blue-200 mb-1">
-                <span>Strength: {strength.label}</span>
-                <span>{strength.strength}%</span>
-              </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div
-                  className={`${strength.color} h-2 rounded-full transition-all duration-300`}
-                  style={{ width: `${strength.strength}%` }}
-                />
-              </div>
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-blue-600 hover:text-white transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
+            >
+              <MoveLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back</span>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-8 md:py-12 max-w-3xl">
+        <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#2563EB] p-6 md:p-10">
+          
+          {/* Password Output Field */}
+          <div className="bg-zinc-100 dark:bg-zinc-800 border-4 border-zinc-900 dark:border-zinc-100 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.1)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)] p-4 md:p-6 mb-8 flex flex-col md:flex-row items-center gap-4">
+            <input
+              type="text"
+              value={password}
+              readOnly
+              className="flex-1 w-full bg-transparent text-xl md:text-3xl font-mono font-black text-zinc-900 dark:text-zinc-50 text-center md:text-left outline-none"
+              placeholder="Click GENERATE below..."
+            />
+            <button
+              onClick={copyToClipboard}
+              className={`w-full md:w-auto px-6 py-3 border-4 border-zinc-900 dark:border-zinc-100 font-black uppercase text-sm tracking-widest shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#18181b] dark:hover:shadow-[6px_6px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all flex items-center justify-center gap-2 ${
+                copied ? 'bg-emerald-500 text-zinc-900' : 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800'
+              }`}
+            >
+              {copied ? <Check className="w-5 h-5" /> : <Fingerprint className="w-5 h-5" />}
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+          </div>
+
+          {/* Strength Meter */}
+          <div className="mb-10">
+            <div className="flex justify-between text-xs md:text-sm font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-2">
+              <span>Security Level</span>
+              <span className={strength.strength >= 75 ? "text-emerald-500" : strength.strength >= 50 ? "text-amber-500" : "text-rose-500"}>
+                {strength.label}
+              </span>
+            </div>
+            <div className="w-full h-4 bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-900 dark:border-zinc-700 p-0.5 flex">
+              <div
+                className={`h-full border-r-2 border-zinc-900 dark:border-zinc-900 transition-all duration-500 ${strength.color}`}
+                style={{ width: `${strength.strength}%` }}
+              />
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                Password Length: {length}
+          {/* Settings Grid */}
+          <div className="space-y-6 mb-10">
+            {/* Length slider */}
+            <div className="p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800">
+              <label className="flex justify-between items-center text-zinc-900 dark:text-zinc-50 font-black uppercase text-sm md:text-base mb-6">
+                Length
+                <span className="text-2xl text-blue-600 dark:text-blue-400">{length}</span>
               </label>
               <input
                 type="range"
@@ -114,83 +143,72 @@ export default function PasswordGenerator() {
                 max="64"
                 value={length}
                 onChange={(e) => setLength(Number(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                className="w-full h-3 bg-zinc-200 dark:bg-zinc-700 border-2 border-zinc-900 rounded-none appearance-none cursor-pointer accent-blue-600 focus:outline-none"
               />
-              <div className="flex justify-between text-sm text-blue-300 mt-1">
+              <div className="flex justify-between text-xs font-bold text-zinc-500 mt-2">
                 <span>4</span>
                 <span>64</span>
               </div>
             </div>
 
-            <div className="space-y-3">
-              <label className="flex items-center gap-3 cursor-pointer group">
+            {/* Checkboxes */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
                 <input
                   type="checkbox"
                   checked={includeUppercase}
                   onChange={(e) => setIncludeUppercase(e.target.checked)}
-                  className="w-5 h-5 rounded accent-blue-500 cursor-pointer"
+                  className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
-                <span className="text-white group-hover:text-blue-200 transition-colors">
-                  Include Uppercase (A-Z)
+                <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
+                  Uppercase (A-Z)
                 </span>
               </label>
 
-              <label className="flex items-center gap-3 cursor-pointer group">
+              <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
                 <input
                   type="checkbox"
                   checked={includeLowercase}
                   onChange={(e) => setIncludeLowercase(e.target.checked)}
-                  className="w-5 h-5 rounded accent-blue-500 cursor-pointer"
+                  className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
-                <span className="text-white group-hover:text-blue-200 transition-colors">
-                  Include Lowercase (a-z)
+                <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
+                  Lowercase (a-z)
                 </span>
               </label>
 
-              <label className="flex items-center gap-3 cursor-pointer group">
+              <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
                 <input
                   type="checkbox"
                   checked={includeNumbers}
                   onChange={(e) => setIncludeNumbers(e.target.checked)}
-                  className="w-5 h-5 rounded accent-blue-500 cursor-pointer"
+                  className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
-                <span className="text-white group-hover:text-blue-200 transition-colors">
-                  Include Numbers (0-9)
+                <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
+                  Numbers (0-9)
                 </span>
               </label>
 
-              <label className="flex items-center gap-3 cursor-pointer group">
+              <label className="flex items-center gap-4 p-4 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors group">
                 <input
                   type="checkbox"
                   checked={includeSymbols}
                   onChange={(e) => setIncludeSymbols(e.target.checked)}
-                  className="w-5 h-5 rounded accent-blue-500 cursor-pointer"
+                  className="w-6 h-6 border-2 border-zinc-900 appearance-none checked:bg-blue-600 checked:after:content-['✓'] checked:after:text-white checked:after:font-bold checked:after:absolute relative flex items-center justify-center shadow-[2px_2px_0_0_#18181b]"
                 />
-                <span className="text-white group-hover:text-blue-200 transition-colors">
-                  Include Symbols (!@#$%^&*)
+                <span className="font-bold uppercase tracking-wide text-zinc-900 dark:text-zinc-50 text-sm">
+                  Symbols (!@#$)
                 </span>
               </label>
             </div>
-
-            <button
-              onClick={generatePassword}
-              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg text-xl"
-            >
-              Generate Password 🚀
-            </button>
           </div>
 
-          <div className="mt-8 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30">
-            <div className="text-blue-200 text-sm">
-              <div className="font-semibold mb-2">💡 Security Tips:</div>
-              <ul className="space-y-1 list-disc list-inside">
-                <li>Use passwords with 16+ characters for maximum security</li>
-                <li>Include a mix of uppercase, lowercase, numbers, and symbols</li>
-                <li>Use unique passwords for each account</li>
-                <li>Consider a password manager for storing them securely</li>
-              </ul>
-            </div>
-          </div>
+          <button
+            onClick={generatePassword}
+            className="w-full flex items-center justify-center gap-3 bg-blue-600 text-white font-black text-xl md:text-2xl py-6 border-4 border-zinc-900 dark:border-zinc-100 hover:bg-blue-500 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[12px_12px_0_0_#18181b] dark:hover:shadow-[12px_12px_0_0_#fafafa] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase tracking-tight cursor-pointer"
+          >
+            <RefreshCcw className="w-8 h-8" /> Generate
+          </button>
         </div>
       </div>
     </div>

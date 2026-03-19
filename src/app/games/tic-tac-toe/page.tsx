@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { MoveLeft, X, Circle, Trophy, RefreshCw, Hash } from "lucide-react";
 
 type Player = "X" | "O" | null;
 type Winner = "X" | "O" | "draw" | null;
@@ -59,125 +61,120 @@ export default function TicTacToe() {
     setWinner(null);
   }
 
-  function getCellContent(player: Player): string {
-    if (player === "X") return "×";
-    if (player === "O") return "○";
-    return "";
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-zinc-900 dark:to-zinc-800">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
       {/* Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm">
+      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#9333EA]">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold dark:text-white">Tic-Tac-Toe ❌⭕</h1>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Classic 3-in-a-row game</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
+                <Hash className="w-6 h-6" />
+              </div>
+              <div>
+                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Tic-Tac-Toe</h1>
+                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">CLASSIC 3-IN-A-ROW</p>
+              </div>
             </div>
-            <a
+            <Link
               href="/"
-              className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-purple-600 hover:text-white transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
             >
-              ← Back to Portfolio
-            </a>
+              <MoveLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back</span>
+            </Link>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 mt-8 md:mt-12 max-w-4xl">
         {/* Scoreboard */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className={`text-3xl font-bold ${currentPlayer === "X" ? "text-indigo-600 dark:text-indigo-400" : "text-zinc-900 dark:text-white"}`}>
-              {currentPlayer === "X" ? "×" : "X"}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
+          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] flex flex-col items-center justify-center">
+            <div className={`flex items-center justify-center mb-2 ${currentPlayer === "X" ? "text-blue-600" : "text-rose-600"}`}>
+              {currentPlayer === "X" ? <X className="w-10 h-10 stroke-[3]" /> : <Circle className="w-10 h-10 stroke-[3]" />}
             </div>
-            <div className={`text-sm ${currentPlayer === "X" ? "text-indigo-600 dark:text-indigo-400" : "text-zinc-500 dark:text-zinc-400"}`}>
-              {currentPlayer === "X" ? "Turn" : "Player"}
-            </div>
+            <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Current Turn</div>
           </div>
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
-              {xWins}
+          
+          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#2563EB] flex flex-col items-center justify-center">
+             <div className="flex items-center gap-2 mb-2 text-blue-600">
+              <X className="w-6 h-6 stroke-[3]" />
+              <span className="text-3xl md:text-4xl font-black">{xWins}</span>
             </div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">× Wins</div>
+            <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Wins</div>
           </div>
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
-              {oWins}
+
+          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#E11D48] flex flex-col items-center justify-center">
+             <div className="flex items-center gap-2 mb-2 text-rose-600">
+              <Circle className="w-6 h-6 stroke-[3]" />
+              <span className="text-3xl md:text-4xl font-black">{oWins}</span>
             </div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">○ Wins</div>
+            <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Wins</div>
           </div>
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
+
+          <div className="p-4 md:p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#9333EA] flex flex-col items-center justify-center">
+             <div className="text-3xl md:text-4xl font-black text-purple-600 mb-2">
               {draws}
             </div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">Draws</div>
+            <div className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Draws</div>
           </div>
         </div>
 
-        {/* Game Board */}
-        <div className="max-w-md mx-auto mb-8">
-          {(winner === "X" || winner === "O") && (
-            <div className="text-center mb-6 p-4 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-xl">
-              <div className="text-4xl font-bold text-orange-600 dark:text-orange-400">
-                {winner === "X" ? "×" : "○"} Wins! 🎉
+        {/* Game Board Container */}
+        <div className="max-w-md mx-auto">
+          {/* Winner Banner */}
+          {winner && (
+            <div className={`text-center mb-8 p-6 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa] ${
+              winner === "X" ? "bg-blue-100 dark:bg-blue-900/40" : winner === "O" ? "bg-rose-100 dark:bg-rose-900/40" : "bg-purple-100 dark:bg-purple-900/40"
+            }`}>
+              <div className="flex items-center justify-center gap-4">
+                {winner === "X" && <X className="w-12 h-12 stroke-[3] text-blue-600 dark:text-blue-400" />}
+                {winner === "O" && <Circle className="w-12 h-12 stroke-[3] text-rose-600 dark:text-rose-400" />}
+                {winner === "draw" && <Hash className="w-12 h-12 stroke-[3] text-purple-600 dark:text-purple-400" />}
               </div>
-            </div>
-          )}
-          {winner === "draw" && (
-            <div className="text-center mb-6 p-4 bg-gradient-to-r from-gray-100 to-zinc-100 dark:from-zinc-700 dark:to-zinc-600 rounded-xl">
-              <div className="text-4xl font-bold text-zinc-600 dark:text-zinc-400">
-                It's a Draw! 🤝
-              </div>
+              <h2 className={`mt-4 text-3xl font-black uppercase ${
+                winner === "X" ? "text-blue-600 dark:text-blue-400" : winner === "O" ? "text-rose-600 dark:text-rose-400" : "text-purple-600 dark:text-purple-400"
+              }`}>
+                {winner === "draw" ? "It's a draw!" : "Wins!"}
+              </h2>
             </div>
           )}
 
-          <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-lg p-8">
-            <div className="grid grid-cols-3 gap-4">
+          <div className="bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#9333EA] p-6 sm:p-8 mb-12">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4">
               {board.map((cell, index) => (
                 <button
                   key={index}
                   onClick={() => handleCellClick(index)}
-                  disabled={cell !== null}
+                  disabled={cell !== null || winner !== null}
                   className={`
-                    aspect-square rounded-xl text-6xl font-bold
-                    transition-all duration-200 cursor-pointer
-                    flex items-center justify-center
-                    ${cell === null
-                      ? "bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600 hover:scale-105"
-                      : "cursor-default"
+                    aspect-square border-4 flex items-center justify-center
+                    transition-all duration-200
+                    ${cell === null && winner === null
+                      ? "border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 hover:bg-purple-100 dark:hover:bg-purple-900/40 hover:-translate-y-1 shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa] cursor-pointer"
+                      : cell !== null
+                        ? "border-zinc-900 dark:border-zinc-100 bg-white dark:bg-zinc-900 cursor-default shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.05)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.05)]"
+                        : "border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 cursor-not-allowed text-zinc-300 shadow-none border-dashed"
                     }
-                    ${cell === "X" ? "text-indigo-600 dark:text-indigo-400" : ""}
-                    ${cell === "O" ? "text-purple-600 dark:text-purple-400" : ""}
                   `}
                 >
-                  {cell ? getCellContent(cell) : ""}
+                  {cell === "X" && <X className="w-12 h-12 sm:w-16 sm:h-16 stroke-[3] text-blue-600" />}
+                  {cell === "O" && <Circle className="w-12 h-12 sm:w-16 sm:h-16 stroke-[3] text-rose-600" />}
                 </button>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Reset Button */}
-        <div className="text-center">
-          <button
-            onClick={resetGame}
-            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition font-medium shadow-lg"
-          >
-            New Game
-          </button>
-        </div>
-
-        {/* Instructions */}
-        <div className="mt-8 p-6 bg-white/80 dark:bg-zinc-800/80 rounded-xl">
-          <h2 className="font-semibold mb-3 dark:text-white">How to Play</h2>
-          <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-            <li>• Player × starts first</li>
-            <li>• Click a cell to place your mark</li>
-            <li>• First to get 3 in a row (horizontal, vertical, or diagonal) wins</li>
-            <li>• Scores are tracked across games</li>
-          </ul>
+          <div className="flex justify-center">
+            <button
+              onClick={resetGame}
+              className="flex items-center gap-3 px-8 py-4 bg-purple-600 text-white font-black text-xl border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase tracking-wide cursor-pointer"
+            >
+              <RefreshCw className="w-6 h-6 stroke-[3]" />
+              New Game
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Mountain, Rocket, Laptop, Palette, Zap, Flame, Star, Lightbulb, MoveLeft, BoxSelect } from "lucide-react";
 
 interface Card {
   id: number;
-  emoji: string;
+  iconType: string;
   flipped: boolean;
   matched: boolean;
 }
 
-const EMOJIS = ["🏔", "🚀", "💻", "🎨", "⚡", "🔥", "🌟", "💡"];
+const ICONS = ["Mountain", "Rocket", "Laptop", "Palette", "Zap", "Flame", "Star", "Lightbulb"];
+
+const getIcon = (type: string, className: string = "w-8 h-8") => {
+  switch (type) {
+    case "Mountain": return <Mountain className={className} />;
+    case "Rocket": return <Rocket className={className} />;
+    case "Laptop": return <Laptop className={className} />;
+    case "Palette": return <Palette className={className} />;
+    case "Zap": return <Zap className={className} />;
+    case "Flame": return <Flame className={className} />;
+    case "Star": return <Star className={className} />;
+    case "Lightbulb": return <Lightbulb className={className} />;
+    default: return <Star className={className} />;
+  }
+};
 
 export default function MemoryGame() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -31,11 +47,11 @@ export default function MemoryGame() {
   }, [gameOver, moves, bestScore]);
 
   function initializeGame(): void {
-    const shuffled = [...EMOJIS, ...EMOJIS]
+    const shuffled = [...ICONS, ...ICONS]
       .sort(() => Math.random() - 0.5)
-      .map((emoji, id) => ({
+      .map((iconType, id) => ({
         id,
-        emoji,
+        iconType,
         flipped: false,
         matched: false,
       }));
@@ -54,7 +70,6 @@ export default function MemoryGame() {
     if (flippedCards.includes(cardId)) return;
     if (cards[cardId].matched) return;
 
-    // Flip the card immediately
     setCards((prev) =>
       prev.map((c) =>
         c.id === cardId ? { ...c, flipped: true } : c
@@ -70,7 +85,7 @@ export default function MemoryGame() {
       const firstCard = cards[first];
       const secondCard = cards[second];
 
-      if (firstCard.emoji === secondCard.emoji) {
+      if (firstCard.iconType === secondCard.iconType) {
         setCards((prev) =>
           prev.map((c) =>
             c.id === first || c.id === second ? { ...c, matched: true } : c
@@ -86,7 +101,6 @@ export default function MemoryGame() {
         }
       } else {
         setTimeout(() => {
-          // Flip back both cards
           setCards((prev) =>
             prev.map((c) =>
               c.id === first || c.id === second ? { ...c, flipped: false } : c
@@ -99,85 +113,98 @@ export default function MemoryGame() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-zinc-900 dark:to-zinc-800">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans">
       {/* Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm">
+      <header className="border-b-4 border-zinc-900 dark:border-zinc-800 bg-white dark:bg-zinc-900 sticky top-0 z-10 shadow-[0_4px_0_0_#2563EB]">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold dark:text-white">Memory Game 🧠</h1>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">Match all pairs!</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-rose-600 border-2 border-zinc-900 dark:border-zinc-100 flex items-center justify-center text-white shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa]">
+                <BoxSelect className="w-6 h-6" />
+              </div>
+              <div>
+                <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight dark:text-zinc-50">Memory Game</h1>
+                <p className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400">MATCH ALL PAIRS!</p>
+              </div>
             </div>
-            <a
+            <Link
               href="/"
-              className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition"
+              className="flex items-center gap-2 px-4 py-2 border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 font-bold hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors shadow-[2px_2px_0_0_#18181b] dark:shadow-[2px_2px_0_0_#fafafa] hover:translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_#18181b] dark:hover:shadow-[4px_4px_0_0_#fafafa] active:translate-y-0 active:translate-x-0 active:shadow-none"
             >
-              ← Back to Portfolio
-            </a>
+              <MoveLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back</span>
+            </Link>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
+        <div className="grid grid-cols-3 gap-6 mb-12">
+          <div className="p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+            <div className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-zinc-50 mb-2">
               {moves}
             </div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">Moves</div>
+            <div className="text-sm md:text-base font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Moves</div>
           </div>
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
+          <div className="p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+            <div className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-zinc-50 mb-2">
               {cards.filter((c) => c.matched).length / 2}
             </div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">Pairs Found</div>
+            <div className="text-sm md:text-base font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest">Pairs</div>
           </div>
-          <div className="p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
+          <div className="p-6 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] text-center">
+            <div className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-zinc-50 mb-2">
               {bestScore ?? "-"}
             </div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">Best Score</div>
+            <div className="text-sm md:text-base font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Best</div>
           </div>
         </div>
 
         {/* Game Grid */}
         {!gameOver ? (
-          <div className="grid grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-4 gap-4 sm:gap-6 bg-zinc-100 dark:bg-zinc-800/50 p-6 sm:p-8 border-4 border-zinc-900 dark:border-zinc-100 shadow-[8px_8px_0_0_#2563EB]">
             {cards.map((card) => (
               <button
                 key={card.id}
                 onClick={() => handleCardClick(card.id)}
                 disabled={card.matched}
                 className={`
-                  aspect-square rounded-xl font-bold text-4xl sm:text-5xl
-                  transition-all duration-300 cursor-pointer
+                  aspect-square border-4 border-zinc-900 dark:border-zinc-100 flex items-center justify-center
+                  transition-all duration-200 cursor-pointer
                   ${card.flipped || card.matched
-                    ? "bg-white dark:bg-zinc-700 shadow-md"
-                    : "bg-gradient-to-br from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                    ? "bg-white dark:bg-zinc-800 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.1)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)] text-blue-600 dark:text-blue-400"
+                    : "bg-blue-600 hover:bg-blue-500 shadow-[4px_4px_0_0_#18181b] dark:shadow-[4px_4px_0_0_#fafafa]"
                   }
-                  ${flippedCards.includes(card.id) ? "scale-95" : "hover:scale-102"}
+                  ${flippedCards.includes(card.id) ? "scale-95 translate-y-1 shadow-none" : "hover:-translate-y-1"}
                   ${card.matched ? "opacity-50" : ""}
                 `}
               >
-                {card.flipped || card.matched ? card.emoji : <CardBack />}
+                {card.flipped || card.matched ? getIcon(card.iconType, "w-8 h-8 sm:w-12 sm:h-12") : <CardBack />}
               </button>
             ))}
           </div>
         ) : (
           /* Game Over */
-          <div className="p-8 bg-white dark:bg-zinc-800 rounded-xl shadow-sm text-center">
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold mb-4 dark:text-white">You Won!</h2>
-            <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-6">
+          <div className="p-12 bg-white dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[12px_12px_0_0_#E11D48] text-center">
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 bg-rose-500 border-4 border-zinc-900 flex items-center justify-center animate-bounce">
+                <Star className="w-10 h-10 text-white" />
+              </div>
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-black mb-4 dark:text-zinc-50 uppercase tracking-tight">You Won!</h2>
+            <p className="text-xl font-bold text-zinc-600 dark:text-zinc-400 mb-8 border-y-2 border-zinc-200 dark:border-zinc-800 py-4">
               Completed in {moves} moves
               {bestScore && moves === bestScore && (
-                <span className="ml-2 text-yellow-600 dark:text-yellow-400">🏆 New Best!</span>
+                <span className="block mt-2 text-yellow-600 dark:text-yellow-400 items-center justify-center gap-2">
+                  <Star className="w-5 h-5 inline mr-2" />
+                  NEW BEST SCORE!
+                </span>
               )}
             </p>
             <button
               onClick={initializeGame}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+              className="px-8 py-4 bg-emerald-500 text-zinc-900 font-black text-xl border-4 border-zinc-900 shadow-[6px_6px_0_0_#18181b] hover:-translate-y-1 hover:translate-x-1 hover:shadow-[10px_10px_0_0_#18181b] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all uppercase"
             >
               Play Again
             </button>
@@ -185,13 +212,13 @@ export default function MemoryGame() {
         )}
 
         {/* Instructions */}
-        <div className="mt-8 p-6 bg-white/80 dark:bg-zinc-800/80 rounded-xl">
-          <h2 className="font-semibold mb-3 dark:text-white">How to Play</h2>
-          <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-            <li>• Click a card to flip it</li>
-            <li>• Try to find matching pairs</li>
-            <li>• Complete in as few moves as possible</li>
-            <li>• Your best score is saved locally</li>
+        <div className="mt-12 p-8 bg-zinc-100 dark:bg-zinc-900 border-4 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa]">
+          <h2 className="text-2xl font-black mb-4 dark:text-zinc-50 uppercase">How to Play</h2>
+          <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-blue-600"></div> Click a card to flip it</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-rose-600"></div> Try to find matching pairs</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-emerald-600"></div> Complete in as few moves as possible</li>
+            <li className="flex items-center gap-3"><div className="w-2 h-2 bg-amber-600"></div> Your best score is saved locally</li>
           </ul>
         </div>
       </div>
@@ -201,52 +228,10 @@ export default function MemoryGame() {
 
 function CardBack() {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      className="w-full h-full"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Mountain pattern */}
-      <defs>
-        <pattern
-          id="mountainPattern"
-          patternUnits="userSpaceOnUse"
-          width="40"
-          height="40"
-        >
-          <path
-            d="M5 25 L10 15 L15 25 L15 28 L10 18 L5 25 Z"
-            fill="rgba(255,255,255,0.2)"
-          />
-          <path
-            d="M25 25 L30 15 L35 25 L35 28 L30 18 L25 25 Z"
-            fill="rgba(255,255,255,0.3)"
-          />
-          <path
-            d="M15 20 L20 10 L25 20 L25 23 L20 13 L15 20 Z"
-            fill="rgba(255,255,255,0.25)"
-          />
-          <path
-            d="M35 22 L40 12 L45 22 L45 25 L40 15 L35 22 Z"
-            fill="rgba(255,255,255,0.2)"
-          />
-        </pattern>
-        <radialGradient id="bgGradient">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0.15)" />
-        </radialGradient>
-      </defs>
-      <rect width="100" height="100" fill="url(#bgGradient)" />
-      <rect width="100" height="100" fill="url(#mountainPattern)" />
-      {/* Border */}
-      <rect
-        width="100"
-        height="100"
-        fill="none"
-        stroke="rgba(255,255,255,0.4)"
-        strokeWidth="1"
-        rx="8"
-      />
-    </svg>
+    <div className="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-400 to-blue-600 flex flex-col items-center justify-center p-2 opacity-80 gap-1">
+      <div className="w-full flex-1 border-2 border-zinc-900/20"></div>
+      <div className="w-full flex-1 border-2 border-zinc-900/20"></div>
+      <div className="w-full flex-1 border-2 border-zinc-900/20"></div>
+    </div>
   );
 }
