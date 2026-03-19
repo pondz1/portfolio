@@ -68,11 +68,14 @@ export default function Home() {
   const tools = [
     { name: "Color Palette", href: "/tools/color-palette", icon: <Palette className="w-5 h-5" /> },
     { name: "Calculator", href: "/tools/calculator", icon: <Calculator className="w-5 h-5" /> },
+    { name: "Password Generator", href: "/tools/password-generator", icon: <Globe className="w-5 h-5" /> },
   ];
 
   const games = [
     { name: "Memory Game", href: "/games/memory-game", icon: <BoxSelect className="w-5 h-5" /> },
     { name: "Tic-Tac-Toe", href: "/games/tic-tac-toe", icon: <Gamepad2 className="w-5 h-5" /> },
+    { name: "Snake", href: "/games/snake", icon: <Telescope className="w-5 h-5" /> },
+    { name: "Whack-a-Mole", href: "/games/whack-a-mole", icon: <Zap className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -137,6 +140,13 @@ export default function Home() {
       tags: ["React", "Game", "Interactive"],
       color: "bg-rose-500",
       href: "/games/memory-game",
+    },
+    {
+      name: "Whack-a-Mole",
+      description: "Fast-paced arcade game with 30-second timer and high score tracking",
+      tags: ["React", "Game", "Arcade"],
+      color: "bg-orange-500",
+      href: "/games/whack-a-mole",
     },
   ];
 
