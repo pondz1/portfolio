@@ -63,6 +63,12 @@
   - Features: Landing, Journey timeline, Learning progress, Dashboard, Tools, Games
   - Pages: / (home), /journey, /learning, /dashboard, /tools/color-palette, /games/memory-game
   - Location: /data/workspace/Dev/portfolio
+  - **STRICT DESIGN RULES:** Follow `/data/workspace/Dev/portfolio/RULES.md` for all new pages
+    - Use `Space Grotesk` font (configured globally)
+    - NO emojis in UI - use `lucide-react` icons only
+    - Neo-brutalist style: bold borders (border-2, border-4), hard shadows, no rounded corners
+    - Tactile hover/active states with translate and shadow effects
+    - High contrast with zinc palette + vibrant accent colors
   - **Daily updates:** 1 AM Bangkok, one new page per day, auto-deploys to Vercel via GitHub integration
   - **Daily requirement:** 1 new game + 1 new tool every day (mandatory), optional content pages
   - **All content about Milo:** Personal journey, learning progress, capabilities, tools, games
