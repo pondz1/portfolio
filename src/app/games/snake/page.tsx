@@ -31,6 +31,9 @@ export default function SnakeGame() {
   const [highScore, setHighScore] = useState(0);
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
   const directionRef = useRef<Direction>('RIGHT');
+  const snakeRef = useRef<Position[]>([]);
+  const foodRef = useRef<Position>({ x: 0, y: 0 });
+  const highScoreRef = useRef(0);
 
   const generateFood = useCallback((currentSnake: Position[]): Position => {
     let newFood: Position;
@@ -44,9 +47,9 @@ export default function SnakeGame() {
   }, []);
 
   const moveSnake = useCallback(() => {
-    if (gameOver) return;
-
     setSnake(prevSnake => {
+      if (gameOver) return prevSnake;
+
       const head = { ...prevSnake[0] };
       const dir = directionRef.current;
 
@@ -84,19 +87,32 @@ export default function SnakeGame() {
 
       return [head, ...prevSnake.slice(0, -1)];
     });
-  }, [food, gameOver, generateFood, highScore]);
+  }, [gameOver, generateFood, highScore, food]);
 
   const startGame = useCallback(() => {
-    setSnake([{ x: 10, y: 10 }]);
-    setFood({ x: 5, y: 5 });
+    const initialSnake = [{ x: 10, y: 10 }];
+    const initialFood = { x: 5, y: 5 };
+    
+    setSnake(initialSnake);
+    setFood(initialFood);
     setDirection('RIGHT');
     directionRef.current = 'RIGHT';
     setGameOver(false);
     setScore(0);
 
+    // Update refs
+    snakeRef.current = initialSnake;
+    foodRef.current = initialFood;
+
     if (gameLoopRef.current) clearInterval(gameLoopRef.current);
     gameLoopRef.current = setInterval(() => {
-      const head = { ...snake[0] };
+      const currentSnake = snakeRef.current;
+      const currentFood = foodRef.current;
+      const currentHighScore = highScoreRef.current;
+      
+      if (!currentSnake || currentSnake.length === 0) return;
+
+      const head = { ...currentSnake[0] };
       const dir = directionRef.current;
 
       switch (dir) {
@@ -114,30 +130,36 @@ export default function SnakeGame() {
       }
 
       // Check self collision
-      if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+      if (currentSnake.some(seg => seg.x === head.x && seg.y === head.y)) {
         setGameOver(true);
         if (gameLoopRef.current) clearInterval(gameLoopRef.current);
         return;
       }
 
       // Check food collision
-      if (head.x === food.x && head.y === food.y) {
-        setScore(s => {
-          const newScore = s + 10;
-          if (newScore > highScore) setHighScore(newScore);
-          return newScore;
-        });
-        setFood(prev => {
-          const newFood: Position = { x: 0, y: 0 };
-          do {
-            newFood.x = Math.floor(Math.random() * gridSize);
-            newFood.y = Math.floor(Math.random() * gridSize);
-          } while (snake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
-          return newFood;
-        });
-        setSnake(prev => [head, ...prev]);
+      if (head.x === currentFood.x && head.y === currentFood.y) {
+        const newScore = scoreRef.current + 10;
+        scoreRef.current = newScore;
+        setScore(newScore);
+        
+        if (newScore > currentHighScore) {
+          highScoreRef.current = newScore;
+          setHighScore(newScore);
+        }
+
+        const newFood: Position = { x: 0, y: 0 };
+        do {
+          newFood.x = Math.floor(Math.random() * gridSize);
+          newFood.y = Math.floor(Math.random() * gridSize);
+        } while (currentSnake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
+        
+        foodRef.current = newFood;
+        setFood(newFood);
+        snakeRef.current = [head, ...currentSnake];
+        setSnake([head, ...currentSnake]);
       } else {
-        setSnake(prev => [head, ...prev.slice(0, -1)]);
+        snakeRef.current = [head, ...currentSnake.slice(0, -1)];
+        setSnake([head, ...currentSnake.slice(0, -1)]);
       }
     }, 120);
   }, []);
@@ -177,7 +199,7 @@ export default function SnakeGame() {
     return () => {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current);
     };
-  }, []);
+  }, [startGame]);
 
   const drawGrid = (ctx: CanvasRenderingContext2D, isDark: boolean) => {
     ctx.strokeStyle = isDark ? '#3f3f46' : '#e4e4e7';
@@ -207,16 +229,14 @@ export default function SnakeGame() {
     const isDark = document.documentElement.classList.contains('dark');
 
     // Clear canvas
-    ctx.fillStyle = isDark ? '#18181b' : '#fafafa';
+    ctx.fillStyle = isDark ? '#fafafa' : '#ffffff';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
     // Draw grid
     drawGrid(ctx, isDark);
 
-    const cellSize = canvasSize / gridSize;
-    
-    // Draw food (apple)
-    ctx.fillStyle = '#e11d48'; // rose-600
+    // Draw food
+    ctx.fillStyle = '#ef4444';
     ctx.fillRect(
       food.x * cellSize + 2,
       food.y * cellSize + 2,
@@ -291,6 +311,8 @@ export default function SnakeGame() {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, [renderCanvas]);
+
+  const cellSize = canvasSize / gridSize;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans pb-12">
@@ -367,15 +389,15 @@ export default function SnakeGame() {
               </div>
               
               <p className="font-bold text-center text-zinc-600 dark:text-zinc-400">
-                You can also use SPACEBAR to restart the game when it's over.
+                You can also use SPACEBAR to restart game when it's over.
               </p>
             </NeoBlock>
             
             <NeoBlock shadowClass="shadow-[8px_8px_0_0_#18181b] dark:shadow-[8px_8px_0_0_#fafafa]" className="p-6">
               <h2 className="text-xl font-black uppercase mb-4 dark:text-white">Rules</h2>
               <ul className="space-y-3 font-bold text-zinc-700 dark:text-zinc-400">
-                <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-rose-600"></div> Eat the red food to grow and earn 10 points.</li>
-                <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-blue-600"></div> Don't hit the walls or yourself!</li>
+                <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-rose-600"></div> Eat red food to grow and earn 10 points.</li>
+                <li className="flex gap-3"><div className="w-2 h-2 mt-2 bg-blue-600"></div> Don't hit walls or yourself!</li>
               </ul>
             </NeoBlock>
           </div>
