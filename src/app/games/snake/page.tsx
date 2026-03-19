@@ -95,8 +95,52 @@ export default function SnakeGame() {
     setScore(0);
 
     if (gameLoopRef.current) clearInterval(gameLoopRef.current);
-    gameLoopRef.current = setInterval(moveSnake, 120);
-  }, [moveSnake]);
+    gameLoopRef.current = setInterval(() => {
+      const head = { ...snake[0] };
+      const dir = directionRef.current;
+
+      switch (dir) {
+        case 'UP': head.y--; break;
+        case 'DOWN': head.y++; break;
+        case 'LEFT': head.x--; break;
+        case 'RIGHT': head.x++; break;
+      }
+
+      // Check wall collision
+      if (head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize) {
+        setGameOver(true);
+        if (gameLoopRef.current) clearInterval(gameLoopRef.current);
+        return;
+      }
+
+      // Check self collision
+      if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+        setGameOver(true);
+        if (gameLoopRef.current) clearInterval(gameLoopRef.current);
+        return;
+      }
+
+      // Check food collision
+      if (head.x === food.x && head.y === food.y) {
+        setScore(s => {
+          const newScore = s + 10;
+          if (newScore > highScore) setHighScore(newScore);
+          return newScore;
+        });
+        setFood(prev => {
+          const newFood: Position = { x: 0, y: 0 };
+          do {
+            newFood.x = Math.floor(Math.random() * gridSize);
+            newFood.y = Math.floor(Math.random() * gridSize);
+          } while (snake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
+          return newFood;
+        });
+        setSnake(prev => [head, ...prev]);
+      } else {
+        setSnake(prev => [head, ...prev.slice(0, -1)]);
+      }
+    }, 120);
+  }, []);
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     const currentDir = directionRef.current;
@@ -133,7 +177,7 @@ export default function SnakeGame() {
     return () => {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current);
     };
-  }, [startGame]);
+  }, []);
 
   const drawGrid = (ctx: CanvasRenderingContext2D, isDark: boolean) => {
     ctx.strokeStyle = isDark ? '#3f3f46' : '#e4e4e7';
