@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Trophy, Hammer, RotateCcw } from "lucide-react";
+import { Trophy, Hammer, RotateCcw, Circle } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { NeoBlock } from "@/components/ui/NeoBlock";
 import { NeoButton } from "@/components/ui/NeoButton";
@@ -121,18 +121,22 @@ export default function WhackAMole() {
                 disabled={!gameActive || !hasMole}
                  className={`
                   aspect-square border-4 border-zinc-800 dark:border-zinc-600 
-                  flex items-center justify-center text-5xl md:text-7xl
+                  flex items-center justify-center
                   transition-all duration-100 cursor-pointer
                   ${hasMole
-                     ? 'bg-amber-800 hover:bg-rose-600 text-white hover:scale-95 active:scale-90 shadow-[0_0_0_0] active:shadow-[0_0_0_0]'
+                     ? 'bg-amber-800 hover:bg-rose-600 text-amber-100 hover:scale-95 active:scale-90'
                     : 'bg-amber-200 dark:bg-zinc-800 shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.2)] dark:shadow-[inset_4px_4px_0_0_rgba(255,255,255,0.1)]'
                   }
                   ${whackedHole === index ? 'bg-rose-600!' : ''}
                    disabled:cursor-not-allowed
                 `}
                >
-                {hasMole ? '🐹' : ''}
-                {whackedHole === index && !hasMole && '💥'}
+                {hasMole && <Circle className="w-16 h-16 md:w-20 md:h-20 fill-current" />}
+                {whackedHole === index && !hasMole && (
+                  <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                    <div className="w-4 h-4 bg-white rounded-full shadow-[0_0_0_4px_#000]"></div>
+                  </div>
+                )}
               </button>
             ))}
           </div>
@@ -143,7 +147,7 @@ export default function WhackAMole() {
            <NeoButton
             onClick={startGame}
             disabled={gameActive}
-            className="py-4 text-xl flex items-center gap-3 bg-rose-600 text-white shadow-[6px_6px_0_0_#18181b] dark:shadow-[6px_6px_0_0_#fafafa] hover:shadow-[10px_10px_0_0_#18181b] dark:hover:shadow-[10px_10px_0_0_#fafafa]"
+            className="py-4 text-xl flex items-center gap-3 bg-rose-600 text-white"
           >
             {gameActive ? (
               <>
@@ -187,7 +191,7 @@ export default function WhackAMole() {
           <ul className="space-y-2 text-zinc-700 dark:text-zinc-300 font-bold">
             <li className="flex items-start gap-2">
                <span className="text-rose-600">•</span>
-              Click or tap the moles when they appear
+              Click or tap the circles when they appear
             </li>
             <li className="flex items-start gap-2">
                <span className="text-rose-600">•</span>
