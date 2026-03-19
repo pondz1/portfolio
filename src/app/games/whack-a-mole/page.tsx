@@ -113,15 +113,15 @@ export default function WhackAMole() {
         </div>
 
         {/* Game Grid */}
-        <NeoBlock shadowClass="shadow-[12px_12px_0_0_#92400E]" className="bg-amber-100 dark:bg-zinc-900 p-6 md:p-8 mb-8">
-          <div className="grid grid-cols-3 gap-4 md:gap-6">
+        <NeoBlock shadowClass="shadow-[12px_12px_0_0_#92400E]" className="bg-amber-100 dark:bg-zinc-900 p-6 md:p-8 mb-8 h-[400px] flex items-center justify-center">
+          <div className="grid grid-cols-3 gap-4 md:gap-6 w-full h-full">
             {moles.map((hasMole, index) => (
                <button
                 key={index}
                 onClick={(e) => whackMole(e, index)}
                 disabled={!gameActive || !hasMole}
                  className={`
-                  aspect-square border-4 border-zinc-800 dark:border-zinc-600 
+                  border-4 border-zinc-800 dark:border-zinc-600 
                   flex items-center justify-center
                   transition-all duration-100 cursor-pointer
                   touch-manipulation
