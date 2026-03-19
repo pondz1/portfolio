@@ -86,7 +86,7 @@ export default function WhackAMole() {
   }, []);
 
   return (
-    <div className="h-screen bg-zinc-50 dark:bg-zinc-950 font-sans overflow-hidden">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans">
       <PageHeader 
         title="Whack-a-Mole" 
         subtitle="SMASH THE MOLES" 
@@ -95,33 +95,33 @@ export default function WhackAMole() {
         shadowClass="shadow-[0_4px_0_0_#DC2626]" 
       />
 
-      <div className="container mx-auto px-4 max-w-4xl h-[calc(100vh-88px)] flex flex-col">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Score Board */}
-        <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4 flex-shrink-0">
-          <NeoBlock shadowClass="shadow-[4px_4px_0_0_#DC2626]" className="p-2 md:p-3 text-center">
-            <div className="text-2xl md:text-3xl font-black text-rose-600">{score}</div>
-            <div className="text-[10px] md:text-xs font-bold text-zinc-600 dark:text-zinc-400">SCORE</div>
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <NeoBlock shadowClass="shadow-[6px_6px_0_0_#DC2626]" className="p-4 text-center">
+            <div className="text-3xl md:text-4xl font-black text-rose-600">{score}</div>
+            <div className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400 mt-1">SCORE</div>
           </NeoBlock>
-          <NeoBlock shadowClass="shadow-[4px_4px_0_0_#F59E0B]" className="p-2 md:p-3 text-center">
-            <div className="text-2xl md:text-3xl font-black text-amber-500">{timeLeft}</div>
-            <div className="text-[10px] md:text-xs font-bold text-zinc-600 dark:text-zinc-400">TIME LEFT</div>
+          <NeoBlock shadowClass="shadow-[6px_6px_0_0_#F59E0B]" className="p-4 text-center">
+            <div className="text-3xl md:text-4xl font-black text-amber-500">{timeLeft}</div>
+            <div className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400 mt-1">TIME LEFT</div>
           </NeoBlock>
-          <NeoBlock shadowClass="shadow-[4px_4px_0_0_#8B5CF6]" className="p-2 md:p-3 text-center">
-            <div className="text-2xl md:text-3xl font-black text-purple-500">{highScore}</div>
-            <div className="text-[10px] md:text-xs font-bold text-zinc-600 dark:text-zinc-400">HIGH SCORE</div>
+          <NeoBlock shadowClass="shadow-[6px_6px_0_0_#8B5CF6]" className="p-4 text-center">
+            <div className="text-3xl md:text-4xl font-black text-purple-500">{highScore}</div>
+            <div className="text-xs md:text-sm font-bold text-zinc-600 dark:text-zinc-400 mt-1">HIGH SCORE</div>
           </NeoBlock>
         </div>
 
-        {/* Game Grid - Main flexible area */}
-        <NeoBlock shadowClass="shadow-[8px_8px_0_0_#92400E]" className="bg-amber-100 dark:bg-zinc-900 p-3 md:p-6 flex-1 flex flex-col justify-center min-h-0">
-          <div className="grid grid-cols-3 gap-2 md:gap-4 aspect-square max-h-full">
+        {/* Game Grid */}
+        <NeoBlock shadowClass="shadow-[12px_12px_0_0_#92400E]" className="bg-amber-100 dark:bg-zinc-900 p-6 md:p-8 mb-8">
+          <div className="grid grid-cols-3 gap-4 md:gap-6">
             {moles.map((hasMole, index) => (
                <button
                 key={index}
                 onClick={(e) => whackMole(e, index)}
                 disabled={!gameActive || !hasMole}
                  className={`
-                  border-4 border-zinc-800 dark:border-zinc-600 
+                  aspect-square border-4 border-zinc-800 dark:border-zinc-600 
                   flex items-center justify-center
                   transition-all duration-100 cursor-pointer
                   touch-manipulation
@@ -133,10 +133,10 @@ export default function WhackAMole() {
                    disabled:cursor-not-allowed
                 `}
                >
-                {hasMole && <Circle className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 fill-current" />}
+                {hasMole && <Circle className="w-16 h-16 md:w-20 md:h-20 fill-current" />}
                 {whackedHole === index && !hasMole && (
-                  <div className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center">
-                    <div className="w-3 h-3 md:w-4 md:h-4 bg-white rounded-full shadow-[0_0_0_3px_#000] md:shadow-[0_0_0_4px_#000]"></div>
+                  <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+                    <div className="w-4 h-4 bg-white rounded-full shadow-[0_0_0_4px_#000]"></div>
                   </div>
                 )}
               </button>
@@ -145,7 +145,7 @@ export default function WhackAMole() {
         </NeoBlock>
 
         {/* Controls */}
-        <div className="flex justify-center gap-4 flex-shrink-0 my-4">
+        <div className="flex justify-center gap-4 mb-8">
            <NeoButton
             onClick={startGame}
             disabled={gameActive}
@@ -165,10 +165,10 @@ export default function WhackAMole() {
            </NeoButton>
         </div>
 
-        {/* Game Over Message - Overlay */}
+        {/* Game Over Message */}
         {!gameActive && score > 0 && (
-          <div className="fixed inset-0 bg-zinc-900/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-             <NeoBlock shadowClass="shadow-[8px_8px_0_0_#DC2626]" className="p-6 md:p-8 max-w-md w-full">
+          <div className="mb-8 text-center">
+             <NeoBlock shadowClass="shadow-[8px_8px_0_0_#DC2626]" className="inline-block p-6 md:p-8">
               <h2 className="text-3xl md:text-4xl font-black uppercase text-zinc-900 dark:text-zinc-50 mb-2">
                 Game Over!
               </h2>
@@ -176,17 +176,39 @@ export default function WhackAMole() {
                 Final Score: <span className="text-rose-600">{score}</span>
               </p>
               {score >= highScore && score > 0 && (
-                <div className="flex items-center justify-center gap-2 text-amber-500 font-black mb-6">
+                <div className="flex items-center justify-center gap-2 text-amber-500 font-black">
                    <Trophy className="w-6 h-6" />
                   New High Score!
                 </div>
               )}
-              <NeoButton onClick={startGame} className="w-full py-4">
-                <Hammer className="w-6 h-6" /> Play Again
-              </NeoButton>
              </NeoBlock>
           </div>
         )}
+
+        {/* Instructions */}
+         <NeoBlock shadowClass="shadow-[8px_8px_0_0_#4B5563]" className="p-6">
+           <h3 className="text-lg md:text-xl font-black uppercase text-zinc-900 dark:text-zinc-50 mb-4">
+            How to Play
+          </h3>
+          <ul className="space-y-2 text-zinc-700 dark:text-zinc-300 font-bold">
+            <li className="flex items-start gap-2">
+               <span className="text-rose-600">•</span>
+              Click or tap circles when they appear
+            </li>
+            <li className="flex items-start gap-2">
+               <span className="text-rose-600">•</span>
+              Each whack gives you 10 points
+             </li>
+             <li className="flex items-start gap-2">
+               <span className="text-rose-600">•</span>
+              You have 30 seconds to score as much as possible
+            </li>
+            <li className="flex items-start gap-2">
+               <span className="text-rose-600">•</span>
+              Beat your high score to earn the trophy!
+            </li>
+          </ul>
+        </NeoBlock>
       </div>
     </div>
   );
