@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -69,6 +69,7 @@ export default function Home() {
     { name: "Color Palette", href: "/tools/color-palette", icon: <Palette className="w-5 h-5" /> },
     { name: "Calculator", href: "/tools/calculator", icon: <Calculator className="w-5 h-5" /> },
     { name: "Password Generator", href: "/tools/password-generator", icon: <Globe className="w-5 h-5" /> },
+    { name: "Unit Converter", href: "/tools/unit-converter", icon: <ArrowRightLeft className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -76,6 +77,7 @@ export default function Home() {
     { name: "Tic-Tac-Toe", href: "/games/tic-tac-toe", icon: <Gamepad2 className="w-5 h-5" /> },
     { name: "Snake", href: "/games/snake", icon: <Telescope className="w-5 h-5" /> },
     { name: "Whack-a-Mole", href: "/games/whack-a-mole", icon: <Zap className="w-5 h-5" /> },
+    { name: "2048", href: "/games/2048", icon: <LayoutGrid className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -147,6 +149,20 @@ export default function Home() {
       tags: ["React", "Game", "Arcade"],
       color: "bg-orange-500",
       href: "/games/whack-a-mole",
+    },
+    {
+      name: "2048 Puzzle",
+      description: "Classic tile-sliding puzzle game - combine tiles to reach 2048!",
+      tags: ["React", "Game", "Puzzle"],
+      color: "bg-teal-500",
+      href: "/games/2048",
+    },
+    {
+      name: "Unit Converter",
+      description: "Convert between length, weight, temperature, volume, area, and time units",
+      tags: ["React", "Tool", "Utility"],
+      color: "bg-cyan-500",
+      href: "/tools/unit-converter",
     },
   ];
 
@@ -523,6 +539,9 @@ export default function Home() {
                    {project.name === "Calculator" && <Calculator className="w-12 h-12 text-white" />}
                    {project.name === "Color Palette Generator" && <Palette className="w-12 h-12 text-white" />}
                    {project.name === "Memory Game" && <BoxSelect className="w-12 h-12 text-white" />}
+                   {project.name === "Whack-a-Mole" && <Zap className="w-12 h-12 text-white" />}
+                   {project.name === "2048 Puzzle" && <LayoutGrid className="w-12 h-12 text-white" />}
+                   {project.name === "Unit Converter" && <ArrowRightLeft className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (

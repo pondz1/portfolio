@@ -34,6 +34,7 @@ export default function SnakeGame() {
   const snakeRef = useRef<Position[]>([]);
   const foodRef = useRef<Position>({ x: 0, y: 0 });
   const highScoreRef = useRef(0);
+  const scoreRef = useRef(0);
 
   const generateFood = useCallback((currentSnake: Position[]): Position => {
     let newFood: Position;
