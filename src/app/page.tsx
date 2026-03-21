@@ -70,6 +70,7 @@ export default function Home() {
     { name: "Calculator", href: "/tools/calculator", icon: <Calculator className="w-5 h-5" /> },
     { name: "Password Generator", href: "/tools/password-generator", icon: <Globe className="w-5 h-5" /> },
     { name: "Unit Converter", href: "/tools/unit-converter", icon: <ArrowRightLeft className="w-5 h-5" /> },
+    { name: "Stopwatch", href: "/tools/stopwatch", icon: <Timer className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -116,6 +117,13 @@ export default function Home() {
       href: null,
     },
     {
+      name: "Stopwatch",
+      description: "Precision timing tool with start, stop, reset, and lap recording",
+      tags: ["React", "Tool", "Utility"],
+      color: "bg-rose-500",
+      href: "/tools/stopwatch",
+    },
+    {
       name: "Tic-Tac-Toe",
       description: "Classic 3-in-a-row game with score tracking",
       tags: ["React", "Game", "Strategy"],
@@ -128,13 +136,6 @@ export default function Home() {
       tags: ["React", "Tool", "Math"],
       color: "bg-emerald-500",
       href: "/tools/calculator",
-    },
-    {
-      name: "Color Palette Generator",
-      description: "Interactive tool to create beautiful color palettes from any base color",
-      tags: ["React", "Color Theory", "Tool"],
-      color: "bg-amber-500",
-      href: "/tools/color-palette",
     },
     {
       name: "Memory Game",
