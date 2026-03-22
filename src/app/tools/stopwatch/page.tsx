@@ -124,7 +124,7 @@ export default function Stopwatch() {
             {isRunning && (
               <NeoButton
                 onClick={handleLap}
-                variant="outline"
+                variant="secondary"
                 className="py-4 px-8 text-xl font-bold flex items-center gap-3"
               >
                 <Flag className="w-6 h-6 stroke-[3]" />
@@ -134,7 +134,7 @@ export default function Stopwatch() {
 
             <NeoButton
               onClick={handleReset}
-              variant="outline"
+              variant="secondary"
               className="py-4 px-8 text-xl font-bold flex items-center gap-3"
             >
               <RotateCcw className="w-6 h-6 stroke-[3]" />
