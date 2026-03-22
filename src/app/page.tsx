@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
