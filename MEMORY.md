@@ -90,3 +90,11 @@
 - Color Palette (/tools/color-palette) - Generate palettes, copy hex, HSL conversion
 - Calculator (/tools/calculator) - Basic + scientific modes, math operations
 
+
+### 2026-03-22 — Portfolio Build Failures (MAJOR MISTAKE)
+- **LESSON LEARNED:** ALWAYS run `npm run build` BEFORE committing
+- Pushed code 2x in one day that failed to build (missing imports + invalid props)
+- Created `BEFORE_COMMIT.md` checklist in `/data/workspace/Dev/portfolio/`
+- Added `precommit` script to package.json to auto-run builds
+- Documented all errors in `~/.openclaw/workspace/.learnings/ERRORS.md`
+- **New Golden Rule:** "Build before commit. Test before ship. Assume nothing, verify everything."
