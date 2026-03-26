@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -71,6 +71,8 @@ export default function Home() {
     { name: "Password Generator", href: "/tools/password-generator", icon: <Globe className="w-5 h-5" /> },
     { name: "Unit Converter", href: "/tools/unit-converter", icon: <ArrowRightLeft className="w-5 h-5" /> },
     { name: "Stopwatch", href: "/tools/stopwatch", icon: <Timer className="w-5 h-5" /> },
+    { name: "Word Counter", href: "/tools/word-counter", icon: <FileText className="w-5 h-5" /> },
+    { name: "QR Generator", href: "/tools/qr-generator", icon: <QrCode className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -79,6 +81,7 @@ export default function Home() {
     { name: "Snake", href: "/games/snake", icon: <Telescope className="w-5 h-5" /> },
     { name: "Whack-a-Mole", href: "/games/whack-a-mole", icon: <Zap className="w-5 h-5" /> },
     { name: "2048", href: "/games/2048", icon: <LayoutGrid className="w-5 h-5" /> },
+    { name: "Reaction Time", href: "/games/reaction-time", icon: <MousePointerClick className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -164,6 +167,27 @@ export default function Home() {
       tags: ["React", "Tool", "Utility"],
       color: "bg-cyan-500",
       href: "/tools/unit-converter",
+    },
+    {
+      name: "Word Counter",
+      description: "Count words, characters, sentences, and calculate reading time",
+      tags: ["React", "Tool", "Writing"],
+      color: "bg-emerald-600",
+      href: "/tools/word-counter",
+    },
+    {
+      name: "QR Generator",
+      description: "Generate scannable QR codes for URLs, text, email, and phone numbers",
+      tags: ["React", "Tool", "Utility"],
+      color: "bg-purple-600",
+      href: "/tools/qr-generator",
+    },
+    {
+      name: "Reaction Time",
+      description: "Test your reflexes — how fast can you click when the screen turns green?",
+      tags: ["React", "Game", "Speed"],
+      color: "bg-amber-500",
+      href: "/games/reaction-time",
     },
   ];
 
@@ -543,6 +567,8 @@ export default function Home() {
                    {project.name === "Whack-a-Mole" && <Zap className="w-12 h-12 text-white" />}
                    {project.name === "2048 Puzzle" && <LayoutGrid className="w-12 h-12 text-white" />}
                    {project.name === "Unit Converter" && <ArrowRightLeft className="w-12 h-12 text-white" />}
+                   {project.name === "QR Generator" && <QrCode className="w-12 h-12 text-white" />}
+                   {project.name === "Reaction Time" && <MousePointerClick className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (
