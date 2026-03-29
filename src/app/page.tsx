@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -73,6 +73,7 @@ export default function Home() {
     { name: "Stopwatch", href: "/tools/stopwatch", icon: <Timer className="w-5 h-5" /> },
     { name: "Word Counter", href: "/tools/word-counter", icon: <FileText className="w-5 h-5" /> },
     { name: "QR Generator", href: "/tools/qr-generator", icon: <QrCode className="w-5 h-5" /> },
+    { name: "Pomodoro Timer", href: "/tools/pomodoro", icon: <Clock className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -82,6 +83,7 @@ export default function Home() {
     { name: "Whack-a-Mole", href: "/games/whack-a-mole", icon: <Zap className="w-5 h-5" /> },
     { name: "2048", href: "/games/2048", icon: <LayoutGrid className="w-5 h-5" /> },
     { name: "Reaction Time", href: "/games/reaction-time", icon: <MousePointerClick className="w-5 h-5" /> },
+    { name: "Typing Speed", href: "/games/typing-speed", icon: <Keyboard className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -188,6 +190,20 @@ export default function Home() {
       tags: ["React", "Game", "Speed"],
       color: "bg-amber-500",
       href: "/games/reaction-time",
+    },
+    {
+      name: "Typing Speed",
+      description: "Race against the clock — type sentences as fast and accurately as you can",
+      tags: ["React", "Game", "Speed"],
+      color: "bg-emerald-600",
+      href: "/games/typing-speed",
+    },
+    {
+      name: "Pomodoro Timer",
+      description: "Stay productive with focus sessions, short breaks, and long breaks",
+      tags: ["React", "Tool", "Productivity"],
+      color: "bg-rose-600",
+      href: "/tools/pomodoro",
     },
   ];
 
@@ -569,6 +585,8 @@ export default function Home() {
                    {project.name === "Unit Converter" && <ArrowRightLeft className="w-12 h-12 text-white" />}
                    {project.name === "QR Generator" && <QrCode className="w-12 h-12 text-white" />}
                    {project.name === "Reaction Time" && <MousePointerClick className="w-12 h-12 text-white" />}
+                   {project.name === "Typing Speed" && <Keyboard className="w-12 h-12 text-white" />}
+                   {project.name === "Pomodoro Timer" && <Clock className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (
