@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -74,6 +74,7 @@ export default function Home() {
     { name: "Word Counter", href: "/tools/word-counter", icon: <FileText className="w-5 h-5" /> },
     { name: "QR Generator", href: "/tools/qr-generator", icon: <QrCode className="w-5 h-5" /> },
     { name: "Pomodoro Timer", href: "/tools/pomodoro", icon: <Clock className="w-5 h-5" /> },
+    { name: "Markdown Preview", href: "/tools/markdown-preview", icon: <FileText className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -84,6 +85,7 @@ export default function Home() {
     { name: "2048", href: "/games/2048", icon: <LayoutGrid className="w-5 h-5" /> },
     { name: "Reaction Time", href: "/games/reaction-time", icon: <MousePointerClick className="w-5 h-5" /> },
     { name: "Typing Speed", href: "/games/typing-speed", icon: <Keyboard className="w-5 h-5" /> },
+    { name: "Simon Says", href: "/games/simon-says", icon: <Brain className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -204,6 +206,20 @@ export default function Home() {
       tags: ["React", "Tool", "Productivity"],
       color: "bg-rose-600",
       href: "/tools/pomodoro",
+    },
+    {
+      name: "Simon Says",
+      description: "Classic memory pattern game — watch, remember, repeat the sequence",
+      tags: ["React", "Game", "Memory"],
+      color: "bg-violet-500",
+      href: "/games/simon-says",
+    },
+    {
+      name: "Markdown Preview",
+      description: "Write markdown and see it rendered live in a split-view editor",
+      tags: ["React", "Tool", "Writing"],
+      color: "bg-indigo-500",
+      href: "/tools/markdown-preview",
     },
   ];
 
@@ -587,6 +603,8 @@ export default function Home() {
                    {project.name === "Reaction Time" && <MousePointerClick className="w-12 h-12 text-white" />}
                    {project.name === "Typing Speed" && <Keyboard className="w-12 h-12 text-white" />}
                    {project.name === "Pomodoro Timer" && <Clock className="w-12 h-12 text-white" />}
+                   {project.name === "Simon Says" && <Brain className="w-12 h-12 text-white" />}
+                   {project.name === "Markdown Preview" && <FileText className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (
