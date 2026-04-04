@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -76,6 +76,7 @@ export default function Home() {
     { name: "Pomodoro Timer", href: "/tools/pomodoro", icon: <Clock className="w-5 h-5" /> },
     { name: "Markdown Preview", href: "/tools/markdown-preview", icon: <FileText className="w-5 h-5" /> },
     { name: "JSON Formatter", href: "/tools/json-formatter", icon: <Braces className="w-5 h-5" /> },
+    { name: "Base Converter", href: "/tools/base-converter", icon: <Binary className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -88,6 +89,7 @@ export default function Home() {
     { name: "Typing Speed", href: "/games/typing-speed", icon: <Keyboard className="w-5 h-5" /> },
     { name: "Simon Says", href: "/games/simon-says", icon: <Brain className="w-5 h-5" /> },
     { name: "Minesweeper", href: "/games/minesweeper", icon: <Bomb className="w-5 h-5" /> },
+    { name: "Flappy Bird", href: "/games/flappy-bird", icon: <Bird className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -236,6 +238,20 @@ export default function Home() {
       tags: ["React", "Tool", "Utility"],
       color: "bg-violet-600",
       href: "/tools/json-formatter",
+    },
+    {
+      name: "Flappy Bird",
+      description: "Classic side-scrolling game - tap to fly through pipes and beat your best score",
+      tags: ["React", "Game", "Arcade", "Canvas"],
+      color: "bg-amber-500",
+      href: "/games/flappy-bird",
+    },
+    {
+      name: "Base Converter",
+      description: "Convert numbers between Binary, Octal, Decimal, Hex and custom bases with bit visualization",
+      tags: ["React", "Tool", "Math"],
+      color: "bg-purple-600",
+      href: "/tools/base-converter",
     },
   ];
 
@@ -623,6 +639,8 @@ export default function Home() {
                    {project.name === "Markdown Preview" && <FileText className="w-12 h-12 text-white" />}
                    {project.name === "Minesweeper" && <Bomb className="w-12 h-12 text-white" />}
                    {project.name === "JSON Formatter" && <Braces className="w-12 h-12 text-white" />}
+                   {project.name === "Flappy Bird" && <Bird className="w-12 h-12 text-white" />}
+                   {project.name === "Base Converter" && <Binary className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (
