@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary, Blocks, CaseSensitive } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -77,6 +77,7 @@ export default function Home() {
     { name: "Markdown Preview", href: "/tools/markdown-preview", icon: <FileText className="w-5 h-5" /> },
     { name: "JSON Formatter", href: "/tools/json-formatter", icon: <Braces className="w-5 h-5" /> },
     { name: "Base Converter", href: "/tools/base-converter", icon: <Binary className="w-5 h-5" /> },
+    { name: "Case Converter", href: "/tools/case-converter", icon: <CaseSensitive className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -90,6 +91,7 @@ export default function Home() {
     { name: "Simon Says", href: "/games/simon-says", icon: <Brain className="w-5 h-5" /> },
     { name: "Minesweeper", href: "/games/minesweeper", icon: <Bomb className="w-5 h-5" /> },
     { name: "Flappy Bird", href: "/games/flappy-bird", icon: <Bird className="w-5 h-5" /> },
+    { name: "Breakout", href: "/games/breakout", icon: <Blocks className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -252,6 +254,20 @@ export default function Home() {
       tags: ["React", "Tool", "Math"],
       color: "bg-purple-600",
       href: "/tools/base-converter",
+    },
+    {
+      name: "Breakout",
+      description: "Classic brick-breaking arcade game with paddle, ball physics, and 3 lives",
+      tags: ["React", "Game", "Arcade", "Canvas"],
+      color: "bg-blue-500",
+      href: "/games/breakout",
+    },
+    {
+      name: "Case Converter",
+      description: "Transform text between uppercase, lowercase, title case, camelCase, snake_case and more",
+      tags: ["React", "Tool", "Text"],
+      color: "bg-violet-500",
+      href: "/tools/case-converter",
     },
   ];
 
@@ -641,6 +657,8 @@ export default function Home() {
                    {project.name === "JSON Formatter" && <Braces className="w-12 h-12 text-white" />}
                    {project.name === "Flappy Bird" && <Bird className="w-12 h-12 text-white" />}
                    {project.name === "Base Converter" && <Binary className="w-12 h-12 text-white" />}
+                   {project.name === "Breakout" && <Blocks className="w-12 h-12 text-white" />}
+                   {project.name === "Case Converter" && <CaseSensitive className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (
