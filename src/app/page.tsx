@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary, Blocks, CaseSensitive } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary, Blocks, CaseSensitive, Grid3X3 } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -92,6 +92,7 @@ export default function Home() {
     { name: "Minesweeper", href: "/games/minesweeper", icon: <Bomb className="w-5 h-5" /> },
     { name: "Flappy Bird", href: "/games/flappy-bird", icon: <Bird className="w-5 h-5" /> },
     { name: "Breakout", href: "/games/breakout", icon: <Blocks className="w-5 h-5" /> },
+    { name: "Connect Four", href: "/games/connect-four", icon: <Grid3X3 className="w-5 h-5" /> },
   ];
 
   const skills = [
