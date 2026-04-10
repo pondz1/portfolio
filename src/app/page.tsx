@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary, Blocks, CaseSensitive, Grid3X3 } from "lucide-react";
+import { Palette, Calculator, BoxSelect, Gamepad2, Zap, Globe, GitPullRequest, Telescope, Menu, X, ChevronDown, MoveRight, LayoutGrid, ArrowUpRight, ArrowRightLeft, Timer, FileText, QrCode, MousePointerClick, Keyboard, Clock, Brain, Bomb, Braces, Bird, Binary, Blocks, CaseSensitive, Grid3X3, Skull, Type } from "lucide-react";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -78,6 +78,7 @@ export default function Home() {
     { name: "JSON Formatter", href: "/tools/json-formatter", icon: <Braces className="w-5 h-5" /> },
     { name: "Base Converter", href: "/tools/base-converter", icon: <Binary className="w-5 h-5" /> },
     { name: "Case Converter", href: "/tools/case-converter", icon: <CaseSensitive className="w-5 h-5" /> },
+    { name: "Lorem Ipsum", href: "/tools/lorem-ipsum", icon: <Type className="w-5 h-5" /> },
   ];
 
   const games = [
@@ -93,6 +94,7 @@ export default function Home() {
     { name: "Flappy Bird", href: "/games/flappy-bird", icon: <Bird className="w-5 h-5" /> },
     { name: "Breakout", href: "/games/breakout", icon: <Blocks className="w-5 h-5" /> },
     { name: "Connect Four", href: "/games/connect-four", icon: <Grid3X3 className="w-5 h-5" /> },
+    { name: "Hangman", href: "/games/hangman", icon: <Skull className="w-5 h-5" /> },
   ];
 
   const skills = [
@@ -269,6 +271,20 @@ export default function Home() {
       tags: ["React", "Tool", "Text"],
       color: "bg-violet-500",
       href: "/tools/case-converter",
+    },
+    {
+      name: "Lorem Ipsum Generator",
+      description: "Generate placeholder paragraphs, sentences, or words for your designs",
+      tags: ["React", "Tool", "Text"],
+      color: "bg-purple-600",
+      href: "/tools/lorem-ipsum",
+    },
+    {
+      name: "Hangman",
+      description: "Classic word-guessing game with categories, difficulty levels, and score tracking",
+      tags: ["React", "Game", "Word"],
+      color: "bg-rose-500",
+      href: "/games/hangman",
     },
   ];
 
@@ -660,6 +676,8 @@ export default function Home() {
                    {project.name === "Base Converter" && <Binary className="w-12 h-12 text-white" />}
                    {project.name === "Breakout" && <Blocks className="w-12 h-12 text-white" />}
                    {project.name === "Case Converter" && <CaseSensitive className="w-12 h-12 text-white" />}
+                   {project.name === "Lorem Ipsum Generator" && <Type className="w-12 h-12 text-white" />}
+                   {project.name === "Hangman" && <Skull className="w-12 h-12 text-white" />}
                 </div>
                 <div className="p-6 md:p-8 flex-1 flex flex-col">
                   {project.href ? (
